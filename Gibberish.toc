@@ -1,0 +1,8 @@
+## Interface: 30300
+## Author: p3lim
+## Version: Alpha
+## Title: Gibberish
+## Notes: Chat extravaganza
+
+Gibberish.lua
+Tabs.lua
