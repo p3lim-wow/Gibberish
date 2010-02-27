@@ -27,24 +27,18 @@ local function AddMessage(self, str, ...)
 	if(not str) then return hooks[self](self, str, ...) end
 
 	str = str:gsub('(|Hplayer.-|h)%[(.-)%]|h', '%1%2|h')
-	str = str:gsub('^|Hchannel:(.-)|h%[(.-)%]|h', ReplaceStrings)
 
-	str = str:gsub('^%[Raid Warning%]', 'w')
-	str = str:gsub('(|Hplayer.-|h) has earned the achievement (.-)!', '%1 ! %2')
-	str = str:gsub('^(.-|h) says', '%1')
-	str = str:gsub('^(.-|h) yells', '%1')
-
-	return hooks[self](self, str, ...)
-end
-
-local function AddStampMessage(self, str, ...)
-	if(not str) then return hooks[self](self, str, ...) end
-
-	str = str:gsub('(|Hplayer.-|h)%[(.-)%]|h', '%1%2|h')
-	str = str:gsub('^To (.-|h)', '|cffffff00>|r %1')
-	str = str:gsub('^(.-|h) whispers', '%1')
-
-	str = stamp:format(date('%H%M.%S'), str)
+	if(self.index == 3) then
+		str = stamp:format(date('%H%M.%S'), str)
+		str = str:gsub('^To (.-|h)', '|cffffff00>|r %s')
+		str = str:gsub('^(.-|h) whispers', '%1')
+	else
+		str = str:gsub('^|Hchannel:(.-)|h%[(.-)%]|h', ReplaceStrings)
+		str = str:gsub('^%[Raid Warning%]', 'w')
+		str = str:gsub('(|Hplayer.-|h) has earned the achievement (.-)!', '%1 ! %2')
+		str = str:gsub('^(.-|h) says', '%1')
+		str = str:gsub('^(.-|h) yells', '%1')
+	end
 
 	return hooks[self](self, str, ...)
 end
@@ -84,8 +78,11 @@ for index = 1, NUM_CHAT_WINDOWS do
 	Poof(_G['ChatFrame'..index..'DownButton'])
 	Poof(_G['ChatFrame'..index..'BottomButton'])
 
-	hooks[frame] = frame.AddMessage
-	frame.AddMessage = index ~= 3 and AddMessage or AddStampMessage
+	if(index ~= 2) then
+		hooks[frame] = frame.AddMessage
+		frame.AddMessage = AddMessage
+		frame.index = index
+	end
 end
 
 do
