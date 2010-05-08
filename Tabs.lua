@@ -39,32 +39,24 @@ local function OnUpdate(self, elapsed)
 	end
 end
 
-local function UpdateText(self, ...)
-	self = self.GetFontString and self:GetFontString() or self:GetParent():GetFontString()
-
-	local font, size = GameFontNormalSmall:GetFont()
-	self:SetFont(font, size, 'OUTLINE')
-	self:SetTextColor(...)
-end
-
 local function OnEnter(self)
-	UpdateText(self, 0, 0.6, 1)
+	self:GetFontString():SetTextColor(0, 0.6, 1)
 end
 
 local function OnLeave(self)
 	if(_G['ChatFrame'..self:GetID()..'TabFlash']:IsShown()) then
-		UpdateText(self, 1, 0, 0)
+		self:GetFontString():SetTextColor(1, 0, 0)
 	else
-		UpdateText(self, 1, 1, 1)
+		self:GetFontString():SetTextColor(1, 1, 1)
 	end
 end
 
 local function OnShow(self)
-	UpdateText(self, 1, 0, 0)
+	self:GetParent():GetFontString():SetTextColor(1, 0, 0)
 end
 
 local function OnHide(self)
-	UpdateText(self, 1, 1, 1)
+	self:GetParent():GetFontString():SetTextColor(1, 1, 1)
 end
 
 local function SkinTab()
@@ -84,7 +76,9 @@ local function SkinTab()
 		tab:SetScript('OnEnter', OnEnter)
 		tab:SetScript('OnLeave', OnLeave)
 
-		UpdateText(tab, 1, 1, 1)
+		local font, size = GameFontNormalSmall:GetFont()
+		tab:GetFontString():SetFont(font, size, 'OUTLINE')
+		tab:GetFontString():SetTextColor(1, 1, 1)
 	end
 end
 
