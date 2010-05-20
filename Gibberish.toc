@@ -5,3 +5,4 @@
 ## Notes: Chat extravaganza
 
 chat.lua
+tabs.lua
