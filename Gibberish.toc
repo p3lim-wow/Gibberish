@@ -4,5 +4,4 @@
 ## Title: Gibberish
 ## Notes: Chat extravaganza
 
-Gibberish.lua
-Tabs.lua
+chat.lua
