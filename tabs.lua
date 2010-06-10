@@ -1,4 +1,4 @@
---[[
+﻿--[[
 	Copyright (c) 2007-2008 Trond A Ekseth
 	Copyright (c) 2010-2010 Adrian L Lange
 

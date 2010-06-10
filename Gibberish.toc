@@ -4,5 +4,7 @@
 ## Title: Gibberish
 ## Notes: Chat extravaganza
 
-chat.lua
+abbreviate.lua
+setup.lua
 tabs.lua
+telltarget.lua

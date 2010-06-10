@@ -1,60 +1,7 @@
-local addon = CreateFrame('Frame')
+﻿local addon = CreateFrame('Frame')
 addon:RegisterEvent('ADDON_LOADED')
 addon:RegisterEvent('PLAYER_LOGIN')
 addon:SetScript('OnEvent', function(self, event, ...) self[event](self, ...) end)
-
-local gsub = string.gsub
-local format = string.format
-
--- No idea why blizzard havent added this
-local CHAT_MSG_PARTY_GUIDE = gsub(CHAT_PARTY_GUIDE_GET, '|Hchannel:party|h%[(.-)%]|h .*', '%1')
-
-local hooks = {}
-local strings = {
-	[CHAT_MSG_GUILD] = 'g',
-	[CHAT_MSG_PARTY] = 'p',
-	[CHAT_MSG_PARTY_GUIDE] = '|cffffff00p|r',
-	[CHAT_MSG_PARTY_LEADER] = '|cffffff00p|r',
-	[CHAT_MSG_RAID] = 'r',
-	[CHAT_MSG_RAID_LEADER] = '|cffffff00r|r',
-	[CHAT_MSG_BATTLEGROUND] = 'b',
-	[CHAT_MSG_BATTLEGROUND_LEADER] = '|cffffff00b|r',
-}
-
-local function ReplaceStrings(channel, orig)
-	return format('|Hchannel:%s|h%s|h', channel, strings[orig] or channel)
-end
-
-local function AddMessage(self, str, ...)
-	if(not str) then return hooks[self](self, str, ...) end
-
-	str = str:gsub('|Hplayer:(.-)|h%[(.-)%]|h', '|Hplayer:%1|h%2|h')
-	str = str:gsub('|Hchannel:(.-)|h%[(.-)%]|h', ReplaceStrings)
-
-	str = str:gsub('^To (.-|h)', '|cffA1A1A1'..date('%H%M.%S')..'|r |cffA1A1A1@|r%1')
-	str = str:gsub('^(.-|h) whispers', '|cffA1A1A1'..date('%H%M.%S')..'|r %1')
-	str = str:gsub('^%['..RAID_WARNING..'%]', 'w')
-	str = str:gsub('^(.-|h) says', '%1')
-	str = str:gsub('^(.-|h) yells', '%1')
-
-	return hooks[self](self, str, ...)
-end
-
-SLASH_TellTarget1 = '/tt'
-SlashCmdList.TellTarget = function(str)
-	if(UnitIsPlayer('target') and UnitIsFriend('player', 'target')) then
-		SendChatMessage(str, 'WHISPER', GetDefaultLanguage('player'), GetUnitName('target', true):gsub('%s', '', 2))
-	end
-end
-
-hooksecurefunc('ChatEdit_OnSpacePressed', function(self)
-	if(string.match(string.lower(self:GetText()), '^/tt $') and UnitIsPlayer('target') and UnitIsFriend('player', 'target')) then
-		self:Hide()
-		self:SetAttribute('chatType', 'WHISPER')
-		self:SetAttribute('tellTarget', GetUnitName('target', true):gsub('%s', '', 2))
-		ChatFrame_OpenChat('')
-	end
-end)
 
 local function OnMouseWheel(self, direction)
 	if(direction > 0) then
@@ -85,9 +32,11 @@ function addon:ADDON_LOADED(name)
 		frame:SetScript('OnMouseWheel', OnMouseWheel)
 		frame:SetFont([=[Interface\AddOns\Gibberish\vera.ttf]=], 12)
 
-		_G['ChatFrame'..index..'UpButton']:SetScript('OnShow', frame.Hide)
-		_G['ChatFrame'..index..'DownButton']:SetScript('OnShow', frame.Hide)
-		_G['ChatFrame'..index..'BottomButton']:SetScript('OnShow', frame.Hide)
+		for _, type in pairs({'Up', 'Down', 'Bottom'}) do
+			local button = _G['ChatFrame'..index..type..'Button']
+			button:SetScript('OnShow', button.Hide)
+			button:Hide()
+		end
 
 		SetChatWindowLocked(index)
 		SetChatWindowAlpha(index, 0)
@@ -108,6 +57,8 @@ function addon:ADDON_LOADED(name)
 			ChatFrame_AddMessageGroup(frame, 'SYSTEM')
 			ChatFrame_AddMessageGroup(frame, 'MONSTER_WHISPER')
 			ChatFrame_AddMessageGroup(frame, 'MONSTER_BOSS_WHISPER')
+			ChatFrame_AddMessageGroup(frame, 'ACHIEVEMENT')
+			ChatFrame_AddMessageGroup(frame, 'GUILD_ACHIEVEMENT')
 		elseif(index == 2) then
 			FCF_UnDockFrame(frame)
 			FCF_Close(frame)
@@ -132,10 +83,7 @@ function addon:ADDON_LOADED(name)
 			SetChatWindowShown(index, true)
 		end
 
-		if(frame.isDocked) then
-			hooks[frame] = frame.AddMessage
-			frame.AddMessage = AddMessage
-		end
+		SetChatWindowLocked(index, 1)
 	end
 end
 
@@ -147,10 +95,8 @@ function addon:PLAYER_LOGIN()
 	editbox:SetFont([=[Interface\AddOns\Gibberish\vera.ttf]=], 14)
 	editbox:SetAltArrowKeyMode(false)
 
-	local regions = {editbox:GetRegions()}
-	regions[6]:Hide()
-	regions[7]:Hide()
-	regions[8]:Hide()
+	local left, center, right = select(6, editbox:GetRegions())
+	left:Hide(); center:Hide(); right:Hide()
 
 	ChatFrameMenuButton:Hide()
 
