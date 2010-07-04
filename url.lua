@@ -25,8 +25,8 @@ local orig = SetItemRef
 function SetItemRef(link, str, ...)
 	if(string.sub(link, 1, 3) ~= 'url') then return orig(link, str, ...) end
 
-	ChatFrameEditBox:Insert(string.sub(link, 5))
-	ChatFrameEditBox:HighlightText()
-	ChatFrameEditBox:SetFocus()
-	ChatFrameEditBox:Show()
+	local editbox = DEFAULT_CHAT_FRAME.editBox
+	ChatEdit_ActivateChat(editbox)
+	editbox:Insert(string.sub(link, 5))
+	editbox:HighlightText()
 end
