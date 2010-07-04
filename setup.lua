@@ -74,10 +74,7 @@ addon:SetScript('OnEvent', function(self, event, name)
 		SetChatWindowLocked(index, 1)
 	end
 
-	CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0
-	CHAT_FRAME_TAB_SELECTED_NOMOUSE_ALPHA = 0
 	DEFAULT_CHATFRAME_ALPHA = 0
-
 	ChatFrameMenuButton:Hide()
 	ChatFrameMenuButton.Show = ChatFrameMenuButton.Hide
 	FriendsMicroButton:Hide()
