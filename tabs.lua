@@ -1,5 +1,5 @@
 ﻿--[[
-	Copyright (c) 2007-2008 Trond A Ekseth
+	Copyright (c) 2007-2010 Trond A Ekseth
 	Copyright (c) 2010-2010 Adrian L Lange
 
 	Permission is hereby granted, free of charge, to any person
@@ -24,54 +24,49 @@
 	OTHER DEALINGS IN THE SOFTWARE.
 --]]
 
-local function OnEnter(self)
-	self:GetFontString():SetTextColor(0, 0.6, 1)
-end
+-- This is just a modified version of Fane by haste
 
-local function OnLeave(self)
-	if(self.flashing) then
+local function UpdateColors(self)
+	if(self:IsMouseOver()) then
+		self:GetFontString():SetTextColor(0, 0.6, 1)
+	elseif(self.glow:IsShown()) then
 		self:GetFontString():SetTextColor(1, 0, 0)
-	else
+	elseif(self:GetID() == SELECTED_CHAT_FRAME:GetID()) then
 		self:GetFontString():SetTextColor(1, 1, 1)
+	else
+		self:GetFontString():SetTextColor(0.5, 0.5, 0.5)
 	end
 end
 
-DEFAULT_CHATFRAME_ALPHA = 0
-CHAT_TELL_ALERT_TIME = 0
+for index = 1, 5 do
+	local tab = _G['ChatFrame'..index..'Tab']
+	tab.leftTexture:SetTexture(nil)
+	tab.middleTexture:SetTexture(nil)
+	tab.rightTexture:SetTexture(nil)
 
-hooksecurefunc('FCF_SelectDockFrame', function(self)
-	local tab = _G[self:GetName()..'Tab']
-	if(tab.flashing) then
-		tab:GetFontString():SetTextColor(1, 1, 1)
-		tab.flashing = nil
-	end
-end)
+	tab.leftHighlightTexture:SetTexture(nil)
+	tab.middleHighlightTexture:SetTexture(nil)
+	tab.rightHighlightTexture:SetTexture(nil)
 
-FCF_FlashTab = function(self)
-	if(self ~= SELECTED_DOCK_FRAME) then
-		local tab = _G[self:GetName()..'Tab']
-		tab:GetFontString():SetTextColor(1, 0, 0)
-		tab.flashing = true
+	tab.leftSelectedTexture:SetTexture(nil)
+	tab.middleSelectedTexture:SetTexture(nil)
+	tab.rightSelectedTexture:SetTexture(nil)
 
-		UIFrameFadeIn(tab, 0)
-	end
+	tab.glow:SetTexture(nil)
+	tab:SetAlpha(0)
+
+	tab:HookScript('OnEnter', UpdateColors)
+	tab:HookScript('OnLeave', UpdateColors)
+
+	UpdateColors(tab)
 end
 
-local addon = CreateFrame('Frame')
-addon:RegisterEvent('PLAYER_LOGIN')
-addon:SetScript('OnEvent', function()
-	for k, v in pairs(DOCKED_CHAT_FRAMES) do
-		_G[v:GetName()..'TabLeft']:Hide()
-		_G[v:GetName()..'TabMiddle']:Hide()
-		_G[v:GetName()..'TabRight']:Hide()
+CHAT_FRAME_TAB_SELECTED_NOMOUSE_ALPHA = 0
+CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0
+CHAT_FRAME_TAB_NORMAL_MOUSEOVER_ALPHA = 0.7
 
-		local tab = _G[v:GetName()..'Tab']
-		tab:GetHighlightTexture():SetTexture(nil)
-		tab:SetScript('OnEnter', OnEnter)
-		tab:SetScript('OnLeave', OnLeave)
-
-		local font, size = GameFontNormalSmall:GetFont()
-		tab:GetFontString():SetFont(font, size, 'OUTLINE')
-		tab:GetFontString():SetTextColor(1, 1, 1)
-	end
+hooksecurefunc('FCFTab_UpdateColors', UpdateColors)
+hooksecurefunc('FCF_StartAlertFlash', UpdateColors)
+hooksecurefunc('FCF_FadeOutChatFrame', function(self)
+	UpdateColors(_G[self:GetName()..'Tab'])
 end)
