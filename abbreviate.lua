@@ -7,11 +7,12 @@ local abbrev = {
 }
 
 local function Abbreviate(channel)
-	return format('|Hchannel:%s|h%s|h', channel, abbrev[string.upper(channel)] or channel)
+	return string.format('|Hchannel:%s|h%s|h', channel, abbrev[channel] or channel:gsub('channel:', ''))
 end
 
 local function AddMessage(frame, str, ...)
 	str = str:gsub('|Hplayer:(.-)|h%[(.-)%]|h', '|Hplayer:%1|h%2|h')
+	str = str:gsub('|HBNplayer:(.-)|h%[(.-)%]|h', '|HBNplayer:%1|h%2|h')
 	str = str:gsub('|Hchannel:(.-)|h%[(.-)%]|h', Abbreviate)
 
 	str = str:gsub('^To (.-|h)', '|cffA1A1A1@|r%1')

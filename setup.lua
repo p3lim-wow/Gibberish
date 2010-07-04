@@ -1,49 +1,37 @@
 ﻿local addon = CreateFrame('Frame')
 addon:RegisterEvent('ADDON_LOADED')
-addon:RegisterEvent('PLAYER_LOGIN')
-addon:SetScript('OnEvent', function(self, event, ...) self[event](self, ...) end)
-
-local function OnMouseWheel(self, direction)
-	if(direction > 0) then
-		if(IsShiftKeyDown()) then
-			self:ScrollToTop()
-		elseif(IsControlKeyDown()) then
-			self:PageUp()
-		else
-			self:ScrollUp()
-		end
-	elseif(direction < 0) then
-		if(IsShiftKeyDown()) then
-			self:ScrollToBottom()
-		elseif(IsControlKeyDown()) then
-			self:PageDown()
-		else
-			self:ScrollDown()
-		end
-	end
-end
-
-function addon:ADDON_LOADED(name)
+addon:SetScript('OnEvent', function(self, event, name)
 	if(name ~= 'Blizzard_CombatLog') then return end
 
 	for index = 1, 5 do
 		local frame = _G['ChatFrame'..index]
-		frame:EnableMouseWheel()
-		frame:SetScript('OnMouseWheel', OnMouseWheel)
 		frame:SetFont([=[Interface\AddOns\Gibberish\vera.ttf]=], 12)
+		frame:SetClampRectInsets(0, 0, 0, 0)
 
-		for _, type in pairs({'Up', 'Down', 'Bottom'}) do
-			local button = _G['ChatFrame'..index..type..'Button']
-			button:SetScript('OnShow', button.Hide)
-			button:Hide()
-		end
+		local buttons = _G['ChatFrame'..index..'ButtonFrame']
+		buttons.Show = buttons.Hide
+		buttons:Hide()
+
+		local editbox = _G['ChatFrame'..index..'EditBox']
+		editbox:ClearAllPoints()
+		editbox:SetPoint('BOTTOMLEFT', frame, 'TOPLEFT', -5, 20)
+		editbox:SetPoint('BOTTOMRIGHT', frame, 'TOPRIGHT', 5, 20)
+		editbox:SetFont([=[Interface\AddOns\Gibberish\vera.ttf]=], 12)
+		editbox:SetAltArrowKeyMode(false)
+
+		_G['ChatFrame'..index..'EditBoxLeft']:SetTexture(nil)
+		_G['ChatFrame'..index..'EditBoxMid']:SetTexture(nil)
+		_G['ChatFrame'..index..'EditBoxRight']:SetTexture(nil)
+		_G['ChatFrame'..index..'EditBoxFocusLeft']:SetTexture(nil)
+		_G['ChatFrame'..index..'EditBoxFocusMid']:SetTexture(nil)
+		_G['ChatFrame'..index..'EditBoxFocusRight']:SetTexture(nil)
 
 		SetChatWindowLocked(index)
 		SetChatWindowAlpha(index, 0)
 		ChatFrame_RemoveAllMessageGroups(frame)
+		ChatFrame_RemoveAllChannels(frame)
 
 		if(index == 1) then
-			ChatFrame_RemoveAllChannels(frame)
 			ChatFrame_AddMessageGroup(frame, 'SAY')
 			ChatFrame_AddMessageGroup(frame, 'EMOTE')
 			ChatFrame_AddMessageGroup(frame, 'GUILD')
@@ -64,41 +52,38 @@ function addon:ADDON_LOADED(name)
 			FCF_Close(frame)
 		elseif(index == 3) then
 			FCF_DockFrame(frame, 2)
+			FCF_SetWindowName(frame, 'Whisper')
+			ChatFrame_AddMessageGroup(frame, 'BN_WHISPER')
 			ChatFrame_AddMessageGroup(frame, 'WHISPER')
 			ChatFrame_AddMessageGroup(frame, 'IGNORED')
-			SetChatWindowName(index, 'Whisper')
 			SetChatWindowShown(index, true)
 		elseif(index == 4) then
 			FCF_DockFrame(frame, 3)
+			FCF_SetWindowName(frame, 'Loot')
 			ChatFrame_AddMessageGroup(frame, 'LOOT')
-			SetChatWindowName(index, 'Loot')
 			SetChatWindowShown(index, true)
 		elseif(index == 5) then
 			FCF_DockFrame(frame, 4)
-			LeaveChannelByName('LocalDefense')
+			FCF_SetWindowName(frame, 'Channel')
 			ChatFrame_AddChannel(frame, 'General')
 			ChatFrame_AddChannel(frame, 'Trade')
 			ChatFrame_AddChannel(frame, 'LookingForGroup')
-			SetChatWindowName(index, 'Channel')
 			SetChatWindowShown(index, true)
 		end
 
 		SetChatWindowLocked(index, 1)
 	end
-end
 
-function addon:PLAYER_LOGIN()
-	local editbox = ChatFrameEditBox
-	editbox:ClearAllPoints()
-	editbox:SetPoint('BOTTOMLEFT', ChatFrame1, 'TOPLEFT', -5, 20)
-	editbox:SetPoint('BOTTOMRIGHT', ChatFrame1, 'TOPRIGHT', 5, 20)
-	editbox:SetFont([=[Interface\AddOns\Gibberish\vera.ttf]=], 14)
-	editbox:SetAltArrowKeyMode(false)
-
-	local left, center, right = select(6, editbox:GetRegions())
-	left:Hide(); center:Hide(); right:Hide()
+	CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0
+	CHAT_FRAME_TAB_SELECTED_NOMOUSE_ALPHA = 0
+	DEFAULT_CHATFRAME_ALPHA = 0
 
 	ChatFrameMenuButton:Hide()
+	ChatFrameMenuButton.Show = ChatFrameMenuButton.Hide
+	FriendsMicroButton:Hide()
+
+	ChatTypeInfo.WHISPER.sticky = 0
+	ChatTypeInfo.BN_WHISPER.sticky = 0
 
 	ToggleChatColorNamesByClassGroup(true, 'SAY')
 	ToggleChatColorNamesByClassGroup(true, 'EMOTE')
@@ -119,6 +104,24 @@ function addon:PLAYER_LOGIN()
 	ChangeChatColor('RAID_WARNING', 1, 1/4, 1/4)
 	ChangeChatColor('BATTLEGROUND_LEADER', 1, 127/255, 0)
 	ChangeChatColor('PARTY_LEADER', 2/3, 2/3, 1)		
+end)
+
+function FloatingChatFrame_OnMouseScroll(self, direction)
+	if(direction > 0) then
+		if(IsShiftKeyDown()) then
+			self:ScrollToTop()
+		elseif(IsControlKeyDown()) then
+			self:PageUp()
+		else
+			self:ScrollUp()
+		end
+	elseif(direction < 0) then
+		if(IsShiftKeyDown()) then
+			self:ScrollToBottom()
+		elseif(IsControlKeyDown()) then
+			self:PageDown()
+		else
+			self:ScrollDown()
+		end
+	end
 end
-
-
