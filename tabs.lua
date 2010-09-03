@@ -24,18 +24,22 @@
 	OTHER DEALINGS IN THE SOFTWARE.
 --]]
 
--- This is just a modified version of Fane by haste
+-- This is just a very modified version of Fane by haste
 
 local function UpdateColors(self)
 	if(self:IsMouseOver()) then
 		self:GetFontString():SetTextColor(0, 0.6, 1)
-	elseif(self.glow:IsShown()) then
+	elseif(self.alerting) then
 		self:GetFontString():SetTextColor(1, 0, 0)
 	elseif(self:GetID() == SELECTED_CHAT_FRAME:GetID()) then
 		self:GetFontString():SetTextColor(1, 1, 1)
 	else
 		self:GetFontString():SetTextColor(0.5, 0.5, 0.5)
 	end
+end
+
+local function Parse(self)
+	UpdateColors(_G[self:GetName()..'Tab'])
 end
 
 for index = 1, 5 do
@@ -66,7 +70,5 @@ CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0
 CHAT_FRAME_TAB_NORMAL_MOUSEOVER_ALPHA = 0.7
 
 hooksecurefunc('FCFTab_UpdateColors', UpdateColors)
-hooksecurefunc('FCF_StartAlertFlash', UpdateColors)
-hooksecurefunc('FCF_FadeOutChatFrame', function(self)
-	UpdateColors(_G[self:GetName()..'Tab'])
-end)
+hooksecurefunc('FCF_StartAlertFlash', Parse)
+hooksecurefunc('FCF_FadeOutChatFrame', Parse)
