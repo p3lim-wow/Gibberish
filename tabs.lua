@@ -44,6 +44,9 @@ end
 
 for index = 1, 5 do
 	local tab = _G['ChatFrame'..index..'Tab']
+	tab:GetFontString():SetFont([=[Interface\AddOns\Gibberish\semplice.ttf]=], 8, 'OUTLINEMONOCHROME')
+	tab:GetFontString():SetShadowOffset(0, 0)
+
 	tab.leftTexture:SetTexture(nil)
 	tab.middleTexture:SetTexture(nil)
 	tab.rightTexture:SetTexture(nil)

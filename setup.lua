@@ -5,7 +5,8 @@ addon:SetScript('OnEvent', function(self, event, name)
 
 	for index = 1, 5 do
 		local frame = _G['ChatFrame'..index]
-		frame:SetFont([=[Interface\AddOns\Gibberish\vera.ttf]=], 12)
+		frame:SetFont([=[Interface\AddOns\Gibberish\semplice.ttf]=], 8, 'OUTLINEMONOCHROME')
+		frame:SetShadowOffset(0, 0)
 		frame:SetClampRectInsets(0, 0, 0, 0)
 
 		local buttons = _G['ChatFrame'..index..'ButtonFrame']
@@ -16,7 +17,8 @@ addon:SetScript('OnEvent', function(self, event, name)
 		editbox:ClearAllPoints()
 		editbox:SetPoint('BOTTOMLEFT', frame, 'TOPLEFT', -5, 20)
 		editbox:SetPoint('BOTTOMRIGHT', frame, 'TOPRIGHT', 5, 20)
-		editbox:SetFont([=[Interface\AddOns\Gibberish\vera.ttf]=], 12)
+		editbox:SetFont([=[Interface\AddOns\Gibberish\semplice.ttf]=], 8, 'OUTLINEMONOCHROME')
+		editbox:SetShadowOffset(0, 0)
 		editbox:SetAltArrowKeyMode(false)
 
 		_G['ChatFrame'..index..'EditBoxLeft']:SetTexture(nil)
