@@ -27,53 +27,6 @@ addon:SetScript('OnEvent', function(self, event, name)
 		_G['ChatFrame'..index..'EditBoxFocusLeft']:SetTexture(nil)
 		_G['ChatFrame'..index..'EditBoxFocusMid']:SetTexture(nil)
 		_G['ChatFrame'..index..'EditBoxFocusRight']:SetTexture(nil)
-
-		SetChatWindowLocked(index)
-		SetChatWindowAlpha(index, 0)
-		ChatFrame_RemoveAllMessageGroups(frame)
-		ChatFrame_RemoveAllChannels(frame)
-
-		if(index == 1) then
-			ChatFrame_AddMessageGroup(frame, 'SAY')
-			ChatFrame_AddMessageGroup(frame, 'EMOTE')
-			ChatFrame_AddMessageGroup(frame, 'GUILD')
-			ChatFrame_AddMessageGroup(frame, 'PARTY')
-			ChatFrame_AddMessageGroup(frame, 'PARTY_LEADER')
-			ChatFrame_AddMessageGroup(frame, 'RAID')
-			ChatFrame_AddMessageGroup(frame, 'RAID_LEADER')
-			ChatFrame_AddMessageGroup(frame, 'RAID_WARNING')
-			ChatFrame_AddMessageGroup(frame, 'BATTLEGROUND')
-			ChatFrame_AddMessageGroup(frame, 'BATTLEGROUND_LEADER')
-			ChatFrame_AddMessageGroup(frame, 'SYSTEM')
-			ChatFrame_AddMessageGroup(frame, 'MONSTER_WHISPER')
-			ChatFrame_AddMessageGroup(frame, 'MONSTER_BOSS_WHISPER')
-			ChatFrame_AddMessageGroup(frame, 'ACHIEVEMENT')
-			ChatFrame_AddMessageGroup(frame, 'GUILD_ACHIEVEMENT')
-		elseif(index == 2) then
-			FCF_UnDockFrame(frame)
-			FCF_Close(frame)
-		elseif(index == 3) then
-			FCF_DockFrame(frame, 2)
-			FCF_SetWindowName(frame, 'Whisper')
-			ChatFrame_AddMessageGroup(frame, 'BN_WHISPER')
-			ChatFrame_AddMessageGroup(frame, 'WHISPER')
-			ChatFrame_AddMessageGroup(frame, 'IGNORED')
-			SetChatWindowShown(index, true)
-		elseif(index == 4) then
-			FCF_DockFrame(frame, 3)
-			FCF_SetWindowName(frame, 'Loot')
-			ChatFrame_AddMessageGroup(frame, 'LOOT')
-			SetChatWindowShown(index, true)
-		elseif(index == 5) then
-			FCF_DockFrame(frame, 4)
-			FCF_SetWindowName(frame, 'Channel')
-			ChatFrame_AddChannel(frame, 'General')
-			ChatFrame_AddChannel(frame, 'Trade')
-			ChatFrame_AddChannel(frame, 'LookingForGroup')
-			SetChatWindowShown(index, true)
-		end
-
-		SetChatWindowLocked(index, 1)
 	end
 
 	DEFAULT_CHATFRAME_ALPHA = 0
@@ -83,26 +36,6 @@ addon:SetScript('OnEvent', function(self, event, name)
 
 	ChatTypeInfo.WHISPER.sticky = 0
 	ChatTypeInfo.BN_WHISPER.sticky = 0
-
-	ToggleChatColorNamesByClassGroup(true, 'SAY')
-	ToggleChatColorNamesByClassGroup(true, 'EMOTE')
-	ToggleChatColorNamesByClassGroup(true, 'GUILD')
-	ToggleChatColorNamesByClassGroup(true, 'WHISPER')
-	ToggleChatColorNamesByClassGroup(true, 'PARTY')
-	ToggleChatColorNamesByClassGroup(true, 'PARTY_LEADER')
-	ToggleChatColorNamesByClassGroup(true, 'RAID')
-	ToggleChatColorNamesByClassGroup(true, 'RAID_LEADER')
-	ToggleChatColorNamesByClassGroup(true, 'RAID_WARNING')
-	ToggleChatColorNamesByClassGroup(true, 'BATTLEGROUND')
-	ToggleChatColorNamesByClassGroup(true, 'BATTLEGROUND_LEADER')
-	ToggleChatColorNamesByClassGroup(true, 'CHANNEL1')
-	ToggleChatColorNamesByClassGroup(true, 'CHANNEL2')
-	ToggleChatColorNamesByClassGroup(true, 'CHANNEL3')
-
-	ChangeChatColor('RAID_LEADER', 1, 127/255, 0)
-	ChangeChatColor('RAID_WARNING', 1, 1/4, 1/4)
-	ChangeChatColor('BATTLEGROUND_LEADER', 1, 127/255, 0)
-	ChangeChatColor('PARTY_LEADER', 2/3, 2/3, 1)		
 end)
 
 function FloatingChatFrame_OnMouseScroll(self, direction)
