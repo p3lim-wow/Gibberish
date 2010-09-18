@@ -34,6 +34,7 @@ addon:SetScript('OnEvent', function(self, event, name)
 	ChatFrameMenuButton.Show = ChatFrameMenuButton.Hide
 	FriendsMicroButton:Hide()
 
+	ChatTypeInfo.CHANNEL.sticky = 0
 	ChatTypeInfo.WHISPER.sticky = 0
 	ChatTypeInfo.BN_WHISPER.sticky = 0
 end)
