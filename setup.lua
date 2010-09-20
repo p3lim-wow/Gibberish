@@ -1,20 +1,10 @@
-﻿local TEXTURE = [=[Interface\ChatFrame\ChatFrameBackground]=]
-local BACKDROP = {bgFile = TEXTURE, edgeFile = TEXTURE, edgeSize = 1}
-local FONT = [=[Interface\AddOns\Gibberish\semplice.ttf]=]
+﻿local FONT = [=[Interface\AddOns\Gibberish\semplice.ttf]=]
 
 for index = 1, 5 do
 	local frame = _G['ChatFrame'..index]
 	frame:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
 	frame:SetShadowOffset(0, 0)
 	frame:SetClampRectInsets(0, 0, 0, 0)
-
-	local bg = CreateFrame('Frame', nil, frame)
-	bg:SetPoint('TOPRIGHT', 2, 0)
-	bg:SetPoint('BOTTOMLEFT', -2, -4)
-	bg:SetBackdrop(BACKDROP)
-	bg:SetBackdropColor(0, 0, 0, 0.3)
-	bg:SetBackdropBorderColor(0, 0, 0)
-	bg:SetFrameLevel(0)
 
 	local editbox = _G['ChatFrame'..index..'EditBox']
 	editbox:ClearAllPoints()
@@ -37,14 +27,6 @@ for index = 1, 5 do
 	editbox.SetTextInsets = function(self)
 		orig(self, self.header:GetWidth(), 0, 0, 0)
 	end
-
-	local bg = CreateFrame('Frame', nil, editbox)
-	bg:SetPoint('TOPRIGHT', 2, 0)
-	bg:SetPoint('BOTTOMLEFT', -2, -2)
-	bg:SetBackdrop(BACKDROP)
-	bg:SetBackdropColor(0, 0, 0, 0.3)
-	bg:SetBackdropBorderColor(0, 0, 0)
-	bg:SetFrameLevel(0)
 
 	_G['ChatFrame'..index..'ButtonFrame']:Hide()
 	_G['ChatFrame'..index..'EditBoxLeft']:SetTexture(nil)
