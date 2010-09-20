@@ -28,7 +28,15 @@ for index = 1, 5 do
 	editbox.focusMid:SetTexture(nil)
 	editbox.focusRight:SetTexture(nil)
 
+	editbox.header:ClearAllPoints()
+	editbox.header:SetPoint('LEFT')
 	editbox.header:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
+	editbox.header:SetShadowOffset(0, 0)
+
+	local orig = editbox.SetTextInsets
+	editbox.SetTextInsets = function(self)
+		orig(self, self.header:GetWidth(), 0, 0, 0)
+	end
 
 	local bg = CreateFrame('Frame', nil, editbox)
 	bg:SetPoint('TOPRIGHT', 2, 0)
