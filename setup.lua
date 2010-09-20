@@ -56,10 +56,6 @@ addon:SetScript('OnEvent', function(self, event, name)
 	ChatTypeInfo.CHANNEL.sticky = 0
 	ChatTypeInfo.WHISPER.sticky = 0
 	ChatTypeInfo.BN_WHISPER.sticky = 0
-
-	-- I really don't care for the combatlog
-	FCF_UnDockFrame(ChatFrame2)
-	FCF_Close(ChatFrame2)
 end)
 
 function ChatEdit_UpdateHeader(editbox)
