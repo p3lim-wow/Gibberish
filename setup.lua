@@ -42,6 +42,7 @@ FriendsMicroButton:Hide()
 ChatTypeInfo.CHANNEL.sticky = 0
 ChatTypeInfo.WHISPER.sticky = 0
 ChatTypeInfo.BN_WHISPER.sticky = 0
+ChatTypeInfo.GUILD.flashTabOnGeneral = true
 
 function FloatingChatFrame_OnMouseScroll(self, direction)
 	if(direction > 0) then
