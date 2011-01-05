@@ -1,6 +1,6 @@
 ﻿hooksecurefunc('ChatEdit_OnSpacePressed', function(self)
 	if(string.sub(self:GetText(), 1, 3) == '/tt' and UnitCanCooperate('player', 'target')) then
-		ChatFrame_SendTell(GetUnitName('target', true))
+		ChatFrame_SendTell(GetUnitName('target', true):gsub(' ', ''))
 	end
 end)
 
