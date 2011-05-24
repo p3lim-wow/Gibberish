@@ -8,8 +8,8 @@ for index = 1, 5 do
 
 	local editbox = _G['ChatFrame'..index..'EditBox']
 	editbox:ClearAllPoints()
-	editbox:SetPoint('BOTTOMRIGHT', 0, -20)
-	editbox:SetPoint('TOPLEFT', frame, 'BOTTOMLEFT', 0, -6)
+	editbox:SetPoint('TOPRIGHT', frame, 'BOTTOMRIGHT', 0, 5)
+	editbox:SetPoint('TOPLEFT', frame, 'BOTTOMLEFT', 0, 5)
 	editbox:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
 	editbox:SetShadowOffset(0, 0)
 	editbox:SetAltArrowKeyMode(false)
