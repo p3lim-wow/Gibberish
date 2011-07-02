@@ -9,4 +9,3 @@ setup.lua
 tabs.lua
 telltarget.lua
 url.lua
-bubbles.lua
