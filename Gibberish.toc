@@ -9,3 +9,4 @@ setup.lua
 tabs.lua
 telltarget.lua
 url.lua
+reallinks.lua
