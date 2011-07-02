@@ -44,6 +44,8 @@ ChatTypeInfo.WHISPER.sticky = 0
 ChatTypeInfo.BN_WHISPER.sticky = 0
 ChatTypeInfo.GUILD.flashTabOnGeneral = true
 
+function CombatLog_LoadUI() end
+
 function FloatingChatFrame_OnMouseScroll(self, direction)
 	if(direction > 0) then
 		if(IsShiftKeyDown()) then
