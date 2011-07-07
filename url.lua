@@ -8,7 +8,10 @@ for _, event in pairs({
 	'CHAT_MSG_GUILD',
 	'CHAT_MSG_PARTY',
 	'CHAT_MSG_RAID',
+	'CHAT_MSG_RAID_LEADER',
+	'CHAT_MSG_CHANNEL',
 	'CHAT_MSG_WHISPER',
+	'CHAT_MSG_BN_WHISPER',
 	'CHAT_MSG_SAY'
 }) do
 	ChatFrame_AddMessageEventFilter(event, function(self, event, str, ...)
