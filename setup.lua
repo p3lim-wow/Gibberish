@@ -1,6 +1,6 @@
 ﻿local FONT = [=[Interface\AddOns\Gibberish\semplice.ttf]=]
 
-for index = 1, 5 do
+for index = 1, 4 do
 	local frame = _G['ChatFrame'..index]
 	frame:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
 	frame:SetShadowOffset(0, 0)
