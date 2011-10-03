@@ -4,7 +4,7 @@ local function GetLinkColor(data)
 		local _, _, quality = GetItemInfo(id)
 		if(quality) then
 			local _, _, _, hex = GetItemQualityColor(quality)
-			return hex
+			return '|c' .. hex
 		else
 			-- Item is not cached yet, show a white color instead
 			-- Would like to fix this somehow
@@ -33,7 +33,8 @@ end
 local function AddLinkColors(self, event, msg, ...)
 	local data = string.match(msg, '|H(.-)|h(.-)|h')
 	if(data) then
-		return false, msg:gsub('|H(.-)|h(.-)|h', GetLinkColor(data) .. '|H%1|h%2|h|r'), ...
+		local newmsg = string.gsub(msg, '|H(.-)|h(.-)|h', GetLinkColor(data) .. '|H%1|h%2|h|r')
+		return false, newmsg, ...
 	else
 		return false, msg, ...
 	end
