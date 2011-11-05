@@ -65,3 +65,10 @@ function FloatingChatFrame_OnMouseScroll(self, direction)
 		end
 	end
 end
+
+local frame = CreateFrame('Frame')
+frame:RegisterEvent('CHAT_MSG_WHISPER')
+frame:RegisterEvent('CHAT_MSG_BN_WHISPER')
+frame:SetScript('OnEvent', function()
+	PlaySound('TellMessage', 'master')
+end)
