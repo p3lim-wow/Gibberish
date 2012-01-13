@@ -32,6 +32,8 @@ for index = 1, 4 do
 	_G['ChatFrame'..index..'EditBoxLeft']:SetTexture(nil)
 	_G['ChatFrame'..index..'EditBoxMid']:SetTexture(nil)
 	_G['ChatFrame'..index..'EditBoxRight']:SetTexture(nil)
+
+	_G['ChatFrame'..index..'Tab']:SetScript('OnDragStart', nil)
 end
 
 DEFAULT_CHATFRAME_ALPHA = 0
@@ -66,9 +68,9 @@ function FloatingChatFrame_OnMouseScroll(self, direction)
 	end
 end
 
-local frame = CreateFrame('Frame')
-frame:RegisterEvent('CHAT_MSG_WHISPER')
-frame:RegisterEvent('CHAT_MSG_BN_WHISPER')
-frame:SetScript('OnEvent', function()
+local function Play()
 	PlaySound('TellMessage', 'master')
-end)
+end
+
+ChatFrame_AddMessageEventFilter('CHAT_MSG_WHISPER', Play)
+ChatFrame_AddMessageEventFilter('CHAT_MSG_BN_WHISPER', Play)
