@@ -1,6 +1,7 @@
 ﻿local hooks = {}
 local abbrev = {
 	BATTLEGROUND = 'b',
+	OFFICER = 'o',
 	GUILD = 'g',
 	PARTY = 'p',
 	RAID = 'r',
