@@ -28,6 +28,8 @@ local function GetLinkColor(data)
 		return '|cff4e96f7'
 	elseif(type == 'levelup') then
 		return '|cffFF4E00'
+	else
+		return '|cffffffff'
 	end
 end
 
