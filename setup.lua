@@ -5,6 +5,7 @@ for index = 1, 4 do
 	frame:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
 	frame:SetShadowOffset(0, 0)
 	frame:SetClampRectInsets(0, 0, 0, 0)
+	frame:SetSpacing(1.4)
 
 	local editbox = _G['ChatFrame'..index..'EditBox']
 	editbox:ClearAllPoints()
