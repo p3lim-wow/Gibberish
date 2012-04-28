@@ -7,13 +7,18 @@ local abbrev = {
 	RAID = 'r',
 }
 
+local function Strip(info, name)
+	return string.format('|Hplayer:%s|h%s|h', info, name:gsub('%-[^|]+', ''))
+end
+
 local function Abbreviate(channel)
 	return string.format('|Hchannel:%s|h%s|h', channel, abbrev[channel] or channel:gsub('channel:', ''))
 end
 
 local function AddMessage(self, message, ...)
-	message = message:gsub('|Hplayer:(.-)|h%[(.-)%]|h', '|Hplayer:%1|h%2|h')
+	message = message:gsub('|Hplayer:(.-)|h%[(.-)%]|h', Strip)
 	message = message:gsub('|HBNplayer:(.-)|h%[(.-)%]|h', '|HBNplayer:%1|h%2|h')
+
 	message = message:gsub('|Hchannel:(.-)|h%[(.-)%]|h', Abbreviate)
 
 	message = message:gsub('^To (.-|h)', '|cffA1A1A1@|r%1')
