@@ -46,6 +46,12 @@ ChatTypeInfo.WHISPER.sticky = 0
 ChatTypeInfo.BN_WHISPER.sticky = 0
 ChatTypeInfo.GUILD.flashTabOnGeneral = true
 
+hooksecurefunc('ChatFrame_MessageEventHandler', function(self, event, ...)
+	if(event == 'CHAT_MSG_WHISPER' or event == 'CHAT_MSG_BN_WHISPER') then
+		PlaySound('TellMessage', 'master')
+	end
+end)
+
 function CombatLog_LoadUI() end
 
 function FloatingChatFrame_OnMouseScroll(self, direction)
@@ -67,10 +73,3 @@ function FloatingChatFrame_OnMouseScroll(self, direction)
 		end
 	end
 end
-
-local function Play()
-	PlaySound('TellMessage', 'master')
-end
-
-ChatFrame_AddMessageEventFilter('CHAT_MSG_WHISPER', Play)
-ChatFrame_AddMessageEventFilter('CHAT_MSG_BN_WHISPER', Play)
