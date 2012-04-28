@@ -11,18 +11,18 @@ local function Abbreviate(channel)
 	return string.format('|Hchannel:%s|h%s|h', channel, abbrev[channel] or channel:gsub('channel:', ''))
 end
 
-local function AddMessage(frame, str, ...)
-	str = str:gsub('|Hplayer:(.-)|h%[(.-)%]|h', '|Hplayer:%1|h%2|h')
-	str = str:gsub('|HBNplayer:(.-)|h%[(.-)%]|h', '|HBNplayer:%1|h%2|h')
-	str = str:gsub('|Hchannel:(.-)|h%[(.-)%]|h', Abbreviate)
+local function AddMessage(self, message, ...)
+	message = message:gsub('|Hplayer:(.-)|h%[(.-)%]|h', '|Hplayer:%1|h%2|h')
+	message = message:gsub('|HBNplayer:(.-)|h%[(.-)%]|h', '|HBNplayer:%1|h%2|h')
+	message = message:gsub('|Hchannel:(.-)|h%[(.-)%]|h', Abbreviate)
 
-	str = str:gsub('^To (.-|h)', '|cffA1A1A1@|r%1')
-	str = str:gsub('^(.-|h) whispers', '%1')
-	str = str:gsub('^(.-|h) says', '%1')
-	str = str:gsub('^(.-|h) yells', '%1')
-	str = str:gsub('^%['..RAID_WARNING..'%]', 'w')
+	message = message:gsub('^To (.-|h)', '|cffA1A1A1@|r%1')
+	message = message:gsub('^(.-|h) whispers', '%1')
+	message = message:gsub('^(.-|h) says', '%1')
+	message = message:gsub('^(.-|h) yells', '%1')
+	message = message:gsub('^%['..RAID_WARNING..'%]', 'w')
 
-	return hooks[frame](frame, str, ...)
+	return hooks[self](self, message, ...)
 end
 
 for index = 1, 5 do
