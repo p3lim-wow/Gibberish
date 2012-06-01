@@ -1,4 +1,5 @@
 ﻿local patterns = {
+	'(https://%S+)',
 	'(http://%S+)',
 	'(www%.%S+)',
 	'(%d+%.%d+%.%d+%.%d+:?%d*)',
