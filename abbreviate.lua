@@ -15,9 +15,25 @@ local function Abbreviate(channel)
 	return string.format('|Hchannel:%s|h%s|h', channel, abbrev[channel] or channel:gsub('channel:', ''))
 end
 
+local function BattleNet(info, name)
+	local _, presence = string.split(':', info)
+	local _, toon, client, _, _, _, class = BNGetFriendToonInfo(BNGetFriendIndex(presence), 1)
+
+	if(client == BNET_CLIENT_WOW) then
+		local colors = RAID_CLASS_COLORS[class]
+		return string.format('|HBNplayer:%s|h|cff%2x%2x%2x%s|r|h', info, colors.r, colors.g, colors.b, toon)
+	elseif(client == BNET_CLIENT_D3) then
+		return string.format('|HBNplayer:%s|h|cffB71709%s|r|h', info, toon)
+	elseif(client == BNET_CLIENT_S2) then
+		return string.format('|HBNplayer:%s|h|cff00B6FF%s|r|h', info, toon)
+	else
+		return string.format('|HBNplayer:%s|h%s|h', info, name)
+	end
+end
+
 local function AddMessage(self, message, ...)
 	message = message:gsub('|Hplayer:(.-)|h%[(.-)%]|h', Strip)
-	message = message:gsub('|HBNplayer:(.-)|h%[(.-)%]|h', '|HBNplayer:%1|h%2|h')
+	message = message:gsub('|HBNplayer:(.-)|h%[(.-)%]|h', BattleNet)
 
 	message = message:gsub('|Hchannel:(.-)|h%[(.-)%]|h', Abbreviate)
 
