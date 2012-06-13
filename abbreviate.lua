@@ -17,11 +17,11 @@ end
 
 local function BattleNet(info, name)
 	local _, presence = string.split(':', info)
-	local _, toon, client, _, _, _, class = BNGetFriendToonInfo(BNGetFriendIndex(presence), 1)
+	local _, toon, client, _, _, _, _, class = BNGetFriendToonInfo(BNGetFriendIndex(presence), 1)
 
 	if(client == BNET_CLIENT_WOW) then
-		local colors = RAID_CLASS_COLORS[class]
-		return string.format('|HBNplayer:%s|h|cff%2x%2x%2x%s|r|h', info, colors.r, colors.g, colors.b, toon)
+		local colors = RAID_CLASS_COLORS[string.upper(class)]
+		return string.format('|HBNplayer:%s|h|cff%2x%2x%2x%s|r|h', info, colors.r * 255, colors.g * 255, colors.b * 255, toon)
 	elseif(client == BNET_CLIENT_D3) then
 		return string.format('|HBNplayer:%s|h|cffB71709%s|r|h', info, toon)
 	elseif(client == BNET_CLIENT_S2) then
