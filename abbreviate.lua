@@ -7,6 +7,22 @@ local abbrev = {
 	RAID = 'r',
 }
 
+local classes = {}
+do
+	local maleClasses = {}
+	local femaleClasses = {}
+	FillLocalizedClassList(maleClasses)
+	FillLocalizedClassList(femaleClasses, true)
+
+	for token, localized in pairs(maleClasses) do
+		classes[localized] = token
+	end
+
+	for token, localized in pairs(femaleClasses) do
+		classes[localized] = token
+	end
+end
+
 local function Strip(info, name)
 	return string.format('|Hplayer:%s|h%s|h', info, name:gsub('%-[^|]+', ''))
 end
@@ -17,10 +33,11 @@ end
 
 local function BattleNet(info, name)
 	local _, presence = string.split(':', info)
+
 	local _, toon, client, _, _, _, _, class = BNGetFriendToonInfo(BNGetFriendIndex(presence), 1)
 
 	if(client == BNET_CLIENT_WOW) then
-		local colors = RAID_CLASS_COLORS[string.upper(string.gsub(class, ' ', ''))]
+		local colors = RAID_CLASS_COLORS[classes[class]]
 		return string.format('|HBNplayer:%s|h|cff%2x%2x%2x%s|r|h', info, colors.r * 255, colors.g * 255, colors.b * 255, toon)
 	elseif(client == BNET_CLIENT_D3) then
 		return string.format('|HBNplayer:%s|h|TInterface\\ChatFrame\\UI-ChatIcon-D3:15:15:-2:-1:72:72:16:58:16:58|t|cffB71709%s|r|h', info, toon)
