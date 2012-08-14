@@ -45,6 +45,8 @@ Handler:SetScript('OnEvent', function(self, event)
 	if(event == 'PLAYER_LOGIN') then
 		for index = 1, 4 do
 			Skin(index)
+
+			_G['ChatFrame'..index..'Tab']:RegisterForClicks('LeftButtonUp', 'RightButtonUp')
 		end
 
 		DEFAULT_CHATFRAME_ALPHA = 0
