@@ -1,6 +1,6 @@
 ﻿local FONT = [=[Interface\AddOns\Gibberish\semplice.ttf]=]
 
-for index = 1, 4 do
+local function Skin(index)
 	local frame = _G['ChatFrame'..index]
 	frame:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
 	frame:SetShadowOffset(0, 0)
@@ -37,18 +37,26 @@ for index = 1, 4 do
 	_G['ChatFrame'..index..'Tab']:SetScript('OnDragStart', nil)
 end
 
-DEFAULT_CHATFRAME_ALPHA = 0
-ChatFrameMenuButton:SetAlpha(0)
-ChatFrameMenuButton:EnableMouse(false)
-FriendsMicroButton:Hide()
+local Handler = CreateFrame('Frame')
+Handler:RegisterEvent('PLAYER_LOGIN')
+Handler:RegisterEvent('CHAT_MSG_WHISPER')
+Handler:RegisterEvent('CHAT_MSG_BN_WHISPER')
+Handler:SetScript('OnEvent', function(self, event)
+	if(event == 'PLAYER_LOGIN') then
+		for index = 1, 4 do
+			Skin(index)
+		end
 
-ChatTypeInfo.CHANNEL.sticky = 0
-ChatTypeInfo.WHISPER.sticky = 0
-ChatTypeInfo.BN_WHISPER.sticky = 0
-ChatTypeInfo.GUILD.flashTabOnGeneral = true
+		DEFAULT_CHATFRAME_ALPHA = 0
+		ChatFrameMenuButton:SetAlpha(0)
+		ChatFrameMenuButton:EnableMouse(false)
+		FriendsMicroButton:Hide()
 
-hooksecurefunc('ChatFrame_MessageEventHandler', function(self, event, ...)
-	if(event == 'CHAT_MSG_WHISPER' or event == 'CHAT_MSG_BN_WHISPER') then
+		ChatTypeInfo.CHANNEL.sticky = 0
+		ChatTypeInfo.WHISPER.sticky = 0
+		ChatTypeInfo.BN_WHISPER.sticky = 0
+		ChatTypeInfo.GUILD.flashTabOnGeneral = true
+	else
 		PlaySound('TellMessage', 'master')
 	end
 end)
