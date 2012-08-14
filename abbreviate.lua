@@ -38,7 +38,7 @@ local function BattleNet(info, name)
 
 	if(client == BNET_CLIENT_WOW) then
 		local colors = RAID_CLASS_COLORS[classes[class]]
-		return string.format('|HBNplayer:%s|h|cff%2x%2x%2x%s|r|h', info, colors.r * 255, colors.g * 255, colors.b * 255, toon)
+		return string.format('|HBNplayer:%s|h|c%s%s|r|h', info, colors.colorStr, toon)
 	elseif(client == BNET_CLIENT_D3) then
 		return string.format('|HBNplayer:%s|h|TInterface\\ChatFrame\\UI-ChatIcon-D3:15:15:-2:-1:72:72:16:58:16:58|t|cffB71709%s|r|h', info, toon)
 	elseif(client == BNET_CLIENT_S2) then
