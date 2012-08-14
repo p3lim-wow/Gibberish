@@ -3,6 +3,7 @@
 ## Version: Alpha
 ## Title: Gibberish
 ## Notes: Chat extravaganza
+## SavedVariables: r2liymvyaxno
 
 abbreviate.lua
 setup.lua
@@ -10,3 +11,4 @@ tabs.lua
 telltarget.lua
 url.lua
 reallinks.lua
+gm.lua
