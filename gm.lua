@@ -43,7 +43,7 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 		frame:AddMessage(body, info.r, info.g, info.b)
 
 		ChatEdit_SetLastTellTarget(name, 'WHISPER')
-	elseif(event == 'CHAT_MSG_WHISPER_INFORM' and name == current) then
+	elseif(event == 'CHAT_MSG_WHISPER_INFORM' and flag == 'GM') then
 		local info = ChatTypeInfo.WHISPER_INFORM
 		local body = string.format(informString, name, name, message)
 
