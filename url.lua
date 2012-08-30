@@ -5,7 +5,7 @@
 	'(%d+%.%d+%.%d+%.%d+:?%d*)',
 }
 
-for _, event in pairs({
+for __, event in pairs({
 	'CHAT_MSG_GUILD',
 	'CHAT_MSG_PARTY',
 	'CHAT_MSG_RAID',
@@ -16,7 +16,7 @@ for _, event in pairs({
 	'CHAT_MSG_SAY'
 }) do
 	ChatFrame_AddMessageEventFilter(event, function(self, event, str, ...)
-		for _, pattern in pairs(patterns) do
+		for __, pattern in pairs(patterns) do
 			local result, match = string.gsub(str, pattern, '|cff80c8fe|Hurl:%1|h[%1]|h|r')
 			if(match > 0) then
 				return false, result, ...

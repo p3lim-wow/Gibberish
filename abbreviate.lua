@@ -32,9 +32,9 @@ local function Abbreviate(channel)
 end
 
 local function BattleNet(info, name)
-	local _, presence = string.split(':', info)
+	local __, presence = string.split(':', info)
 
-	local _, toon, client, _, _, _, _, class = BNGetFriendToonInfo(BNGetFriendIndex(presence), 1)
+	local __, toon, client, __, __, __, __, class = BNGetFriendToonInfo(BNGetFriendIndex(presence), 1)
 
 	if(client == BNET_CLIENT_WOW) then
 		local colors = RAID_CLASS_COLORS[classes[class]]
