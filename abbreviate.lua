@@ -41,7 +41,7 @@ local function BattleNet(info, name)
 		return string.format('|HBNplayer:%s|h|c%s%s|r|h', info, colors.colorStr, toon)
 	elseif(client == BNET_CLIENT_D3) then
 		return string.format('|HBNplayer:%s|h|TInterface\\ChatFrame\\UI-ChatIcon-D3:15:15:-2:-1:72:72:16:58:16:58|t|cffB71709%s|r|h', info, toon)
-	elseif(client == BNET_CLIENT_S2) then
+	elseif(client == BNET_CLIENT_SC2) then
 		return string.format('|HBNplayer:%s|h|TInterface\\ChatFrame\\UI-ChatIcon-SC2:15:15:-1:-1:72:72:16:58:16:58|t|cff00B6FF%s|r|h', info, toon)
 	end
 end
