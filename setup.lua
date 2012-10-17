@@ -62,6 +62,7 @@ Handler:SetScript('OnEvent', function(self, event)
 		ChatTypeInfo.WHISPER.sticky = 0
 		ChatTypeInfo.BN_WHISPER.sticky = 0
 		ChatTypeInfo.GUILD.flashTabOnGeneral = true
+		ChatTypeInfo.OFFICER.flashTabOnGeneral = true
 	else
 		PlaySound('TellMessage', 'master')
 	end
