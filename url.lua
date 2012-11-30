@@ -2,8 +2,9 @@
 	'(https://%S+)',
 	'(http://%S+)',
 	'(www%.%S+)',
-	'(%d+%.%d+%.%d+%.%d+:?%d*)',
+	'(%d+%.%d+%.%d+%.%d+:?%d*/?%S*)',
 }
+local numPatterns = #patterns
 
 for __, event in pairs({
 	'CHAT_MSG_GUILD',
@@ -16,8 +17,8 @@ for __, event in pairs({
 	'CHAT_MSG_SAY'
 }) do
 	ChatFrame_AddMessageEventFilter(event, function(self, event, str, ...)
-		for __, pattern in pairs(patterns) do
-			local result, match = string.gsub(str, pattern, '|cff80c8fe|Hurl:%1|h[%1]|h|r')
+		for index = 1, numPatterns do
+			local result, match = string.gsub(str, patterns[index], '|cff80c8fe|Hurl:%1|h[%1]|h|r')
 			if(match > 0) then
 				return false, result, ...
 			end
@@ -25,12 +26,16 @@ for __, event in pairs({
 	end)
 end
 
-local orig = SetItemRef
-function SetItemRef(link, str, ...)
-	if(string.sub(link, 1, 3) ~= 'url') then return orig(link, str, ...) end
+local orig = ItemRefTooltip.SetHyperlink
+function ItemRefTooltip.SetHyperlink(self, link, ...)
+	if(string.sub(link, 1, 3) == 'url') then
+		local editbox = ChatEdit_GetLastActiveWindow()
+		ChatEdit_ActivateChat(editbox)
+		editbox:Insert(string.sub(link, 5))
+		editbox:HighlightText()
 
-	local editbox = DEFAULT_CHAT_FRAME.editBox
-	ChatEdit_ActivateChat(editbox)
-	editbox:Insert(string.sub(link, 5))
-	editbox:HighlightText()
+		return
+	end
+
+	orig(self, link, ...)
 end
