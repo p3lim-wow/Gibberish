@@ -2,12 +2,29 @@
 
 local FONT = [=[Interface\AddOns\Gibberish\semplice.ttf]=]
 
+local function Scroll(self, direction)
+	if(direction > 0) then
+		if(IsShiftKeyDown()) then
+			self:ScrollToTop()
+		elseif(IsControlKeyDown()) then
+			self:PageUp()
+		end
+	elseif(direction < 0) then
+		if(IsShiftKeyDown()) then
+			self:ScrollToBottom()
+		elseif(IsControlKeyDown()) then
+			self:PageDown()
+		end
+	end
+end
+
 local function Skin(index)
 	local frame = _G['ChatFrame'..index]
 	frame:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
 	frame:SetShadowOffset(0, 0)
 	frame:SetClampRectInsets(0, 0, 0, 0)
 	frame:SetSpacing(1.4)
+	frame:HookScript('OnMouseWheel', Scroll)
 
 	local editbox = _G['ChatFrame'..index..'EditBox']
 	editbox:ClearAllPoints()
@@ -69,23 +86,3 @@ Handler:SetScript('OnEvent', function(self, event)
 end)
 
 function CombatLog_LoadUI() end
-
-function FloatingChatFrame_OnMouseScroll(self, direction)
-	if(direction > 0) then
-		if(IsShiftKeyDown()) then
-			self:ScrollToTop()
-		elseif(IsControlKeyDown()) then
-			self:PageUp()
-		else
-			self:ScrollUp()
-		end
-	elseif(direction < 0) then
-		if(IsShiftKeyDown()) then
-			self:ScrollToBottom()
-		elseif(IsControlKeyDown()) then
-			self:PageDown()
-		else
-			self:ScrollDown()
-		end
-	end
-end
