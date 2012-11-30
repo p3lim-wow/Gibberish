@@ -1,4 +1,4 @@
-local __, Gibberish = ...
+local _, Gibberish = ...
 
 local frame, current
 
@@ -24,7 +24,7 @@ Handler:RegisterEvent('CHAT_MSG_WHISPER_INFORM')
 Handler:RegisterEvent('PLAYER_LOGOUT')
 Handler:RegisterEvent('PLAYER_LOGIN')
 Handler:SetScript('OnEvent', function(self, event, ...)
-	local message, name, __, __, __, flag = ...
+	local message, name, _, _, _, flag = ...
 	if(event == 'CHAT_MSG_WHISPER' and flag == 'GM') then
 		if(not frame) then
 			CreateChat()

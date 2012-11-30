@@ -1,9 +1,9 @@
 local function GetLinkColor(data)
 	local type, arg1, arg2, arg3 = string.match(data, '(%w+):(%d+):(%d+):(%d+)')
 	if(type == 'item') then
-		local __, __, quality = GetItemInfo(arg1)
+		local _, _, quality = GetItemInfo(arg1)
 		if(quality) then
-			local __, __, __, hex = GetItemQualityColor(quality)
+			local _, _, _, hex = GetItemQualityColor(quality)
 			return '|c' .. hex
 		else
 			-- Item is not cached yet, show a white color instead
@@ -12,7 +12,7 @@ local function GetLinkColor(data)
 		end
 	elseif(type == 'battlepet') then
 		if(arg3 ~= -1) then
-			local __, __, __, hex = GetItemQualityColor(arg3)
+			local _, _, _, hex = GetItemQualityColor(arg3)
 			return '|c' .. hex
 		else
 			return '|cffffd200'

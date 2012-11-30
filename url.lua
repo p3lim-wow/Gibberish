@@ -6,7 +6,7 @@
 }
 local numPatterns = #patterns
 
-for __, event in pairs({
+for _, event in pairs({
 	'CHAT_MSG_GUILD',
 	'CHAT_MSG_PARTY',
 	'CHAT_MSG_RAID',
