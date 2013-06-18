@@ -42,36 +42,40 @@ local function Parse(self)
 	UpdateColors(_G[self:GetName()..'Tab'])
 end
 
-for index = 1, 5 do
-	local tab = _G['ChatFrame'..index..'Tab']
-	tab:GetFontString():SetFont([=[Interface\AddOns\Gibberish\semplice.ttf]=], 8, 'OUTLINEMONOCHROME')
-	tab:GetFontString():SetShadowOffset(0, 0)
+local Handler = CreateFrame('Frame')
+Handler:RegisterEvent('PLAYER_LOGIN')
+Handler:SetScript('OnEvent', function()
+	for index = 1, 5 do
+		local tab = _G['ChatFrame'..index..'Tab']
+		tab:GetFontString():SetFont([=[Interface\AddOns\Gibberish\semplice.ttf]=], 8, 'OUTLINEMONOCHROME')
+		tab:GetFontString():SetShadowOffset(0, 0)
 
-	tab.leftTexture:SetTexture(nil)
-	tab.middleTexture:SetTexture(nil)
-	tab.rightTexture:SetTexture(nil)
+		tab.leftTexture:SetTexture(nil)
+		tab.middleTexture:SetTexture(nil)
+		tab.rightTexture:SetTexture(nil)
 
-	tab.leftHighlightTexture:SetTexture(nil)
-	tab.middleHighlightTexture:SetTexture(nil)
-	tab.rightHighlightTexture:SetTexture(nil)
+		tab.leftHighlightTexture:SetTexture(nil)
+		tab.middleHighlightTexture:SetTexture(nil)
+		tab.rightHighlightTexture:SetTexture(nil)
 
-	tab.leftSelectedTexture:SetTexture(nil)
-	tab.middleSelectedTexture:SetTexture(nil)
-	tab.rightSelectedTexture:SetTexture(nil)
+		tab.leftSelectedTexture:SetTexture(nil)
+		tab.middleSelectedTexture:SetTexture(nil)
+		tab.rightSelectedTexture:SetTexture(nil)
 
-	tab.glow:SetTexture(nil)
-	tab:SetAlpha(0)
+		tab.glow:SetTexture(nil)
+		tab:SetAlpha(0)
 
-	tab:HookScript('OnEnter', UpdateColors)
-	tab:HookScript('OnLeave', UpdateColors)
+		tab:HookScript('OnEnter', UpdateColors)
+		tab:HookScript('OnLeave', UpdateColors)
 
-	UpdateColors(tab)
-end
+		UpdateColors(tab)
+	end
 
-CHAT_FRAME_TAB_SELECTED_NOMOUSE_ALPHA = 0
-CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0
-CHAT_FRAME_TAB_NORMAL_MOUSEOVER_ALPHA = 0.7
+	CHAT_FRAME_TAB_SELECTED_NOMOUSE_ALPHA = 0
+	CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0
+	CHAT_FRAME_TAB_NORMAL_MOUSEOVER_ALPHA = 0.7
 
-hooksecurefunc('FCFTab_UpdateColors', UpdateColors)
-hooksecurefunc('FCF_StartAlertFlash', Parse)
-hooksecurefunc('FCF_FadeOutChatFrame', Parse)
+	hooksecurefunc('FCFTab_UpdateColors', UpdateColors)
+	hooksecurefunc('FCF_StartAlertFlash', Parse)
+	hooksecurefunc('FCF_FadeOutChatFrame', Parse)
+end)
