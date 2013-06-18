@@ -62,6 +62,7 @@ local Handler = CreateFrame('Frame')
 Handler:RegisterEvent('PLAYER_LOGIN')
 Handler:RegisterEvent('CHAT_MSG_WHISPER')
 Handler:RegisterEvent('CHAT_MSG_BN_WHISPER')
+Handler:RegisterEvent('CHAT_MSG_BN_CONVERSATION')
 Handler:SetScript('OnEvent', function(self, event)
 	if(event == 'PLAYER_LOGIN') then
 		for index = 1, 4 do
@@ -78,6 +79,7 @@ Handler:SetScript('OnEvent', function(self, event)
 		ChatTypeInfo.CHANNEL.sticky = 0
 		ChatTypeInfo.WHISPER.sticky = 0
 		ChatTypeInfo.BN_WHISPER.sticky = 0
+		ChatTypeInfo.BN_CONVERSATION.sticky = 0
 		ChatTypeInfo.GUILD.flashTabOnGeneral = true
 		ChatTypeInfo.OFFICER.flashTabOnGeneral = true
 	else
