@@ -5,6 +5,9 @@
 ## Notes: Chat extravaganza
 ## SavedVariables: r2liymvyaxno
 
+libs\LibStub.lua
+libs\LibChatAnims.lua
+
 abbreviate.lua
 setup.lua
 tabs.lua
