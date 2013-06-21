@@ -49,9 +49,7 @@ local function BattleNet(info, name)
 	local _, presence = string_split(':', info)
 	local friendIndex = BNGetFriendIndex(presence)
 
-	print(info, '-', name, '-', friendIndex)
-
-	if(friendIndex and friendIndex ~= 0) then -- redundant?
+	if(friendIndex and friendIndex ~= 0) then
 		local _, toon, client, _, _, _, _, class = BNGetFriendToonInfo(friendIndex, 1)
 		if(client == BNET_CLIENT_WOW) then
 			local colors = RAID_CLASS_COLORS[classes[class]]
