@@ -18,45 +18,6 @@ local function Scroll(self, direction)
 	end
 end
 
-local function BrowseHistory(self, key)
-	if(key ~= 'UP' and key ~= 'DOWN') then return end
-
-	local history = self.history
-	if(#history == 0) then return end
-
-	local total = #history
-	local index = (self.index or (total + 1)) + (key == 'UP' and -1 or 1)
-	if(index < 1) then
-		index = total
-	elseif(index > total) then
-		index = 1
-	end
-
-	self.index = index
-	self:SetText(history[index])
-end
-
-local function AddHistory(self, line)
-	if(not line or line == '') then return end
-	self.index = nil
-
-	local command = string.match(line, '^(/%S+)')
-	if(command and IsSecureCmd(command)) then return end
-
-	local history = self.history
-	for index = 1, #history do
-		if(history[index] == line) then
-			return table.insert(history, table.remove(history, index))
-		end
-	end
-
-	table.insert(history, line)
-
-	if(#history > self:GetHistoryLines()) then
-		table.remove(history, 1)
-	end
-end
-
 local function Skin(index)
 	local frame = _G['ChatFrame'..index]
 	frame:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
@@ -71,11 +32,6 @@ local function Skin(index)
 	editbox:SetPoint('TOPLEFT', frame, 'BOTTOMLEFT', 0, 5)
 	editbox:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
 	editbox:SetShadowOffset(0, 0)
-
-	editbox.history = {}
-	editbox:SetAltArrowKeyMode(false)
-	editbox:SetScript('OnArrowPressed', BrowseHistory)
-	hooksecurefunc(editbox, 'AddHistoryLine', AddHistory)
 
 	editbox.focusLeft:SetTexture(nil)
 	editbox.focusMid:SetTexture(nil)
@@ -97,6 +53,8 @@ local function Skin(index)
 	_G['ChatFrame'..index..'EditBoxRight']:SetTexture(nil)
 
 	_G['ChatFrame'..index..'Tab']:SetScript('OnDragStart', nil)
+
+	ns.History(editbox)
 end
 
 ns.Skin = Skin

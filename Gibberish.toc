@@ -8,6 +8,7 @@
 libs\LibStub.lua
 libs\LibChatAnims.lua
 
+history.lua
 abbreviate.lua
 setup.lua
 tabs.lua
