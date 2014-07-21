@@ -3,7 +3,7 @@
 ## Version: Alpha
 ## Title: Gibberish
 ## Notes: Chat extravaganza
-## SavedVariables: r2liymvyaxno
+## SavedVariables: GibberishLastGM
 
 libs\LibStub.lua
 libs\LibChatAnims.lua

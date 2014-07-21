@@ -35,7 +35,7 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 		end
 
 		current = name
-		r2liymvyaxno = name
+		GibberishLastGM = name
 
 		local info = ChatTypeInfo.WHISPER
 		local body = string.format(getString, name, name, message)
@@ -48,7 +48,7 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 		local body = string.format(informString, name, name, message)
 
 		frame:AddMessage(body, info.r, info.g, info.b)
-	elseif(event == 'PLAYER_LOGIN' and r2liymvyaxno) then
+	elseif(event == 'PLAYER_LOGIN' and GibberishLastGM) then
 		CreateChat()
 
 		if(SELECTED_CHAT_FRAME ~= frame) then
@@ -56,7 +56,7 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 		end
 
 		local info = ChatTypeInfo.WHISPER
-		frame:AddMessage(string.format(GM_CHAT_LAST_SESSION, string.format(sessionString, r2liymvyaxno, r2liymvyaxno)), info.r, info.g, info.b)
+		frame:AddMessage(string.format(GM_CHAT_LAST_SESSION, string.format(sessionString, GibberishLastGM, GibberishLastGM)), info.r, info.g, info.b)
 	elseif(event == 'PLAYER_LOGOUT' and frame) then
 		if(frame) then
 			FCF_Close(frame)
@@ -68,7 +68,7 @@ hooksecurefunc('FCF_Tab_OnClick', function(self, button)
 	if(button == 'MiddleButton') then
 		local chatFrame = _G['ChatFrame' .. self:GetID()]
 		if(chatFrame == frame) then
-			r2liymvyaxno = nil
+			GibberishLastGM = nil
 			frame = nil
 		end
 	end
