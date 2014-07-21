@@ -1,4 +1,4 @@
-﻿local _, Gibberish = ...
+﻿local _, ns = ...
 
 local FONT = [=[Interface\AddOns\Gibberish\semplice.ttf]=]
 
@@ -99,7 +99,7 @@ local function Skin(index)
 	_G['ChatFrame'..index..'Tab']:SetScript('OnDragStart', nil)
 end
 
-Gibberish.Skin = Skin
+ns.Skin = Skin
 
 local Handler = CreateFrame('Frame')
 Handler:RegisterEvent('PLAYER_LOGIN')

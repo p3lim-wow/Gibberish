@@ -1,4 +1,4 @@
-local _, Gibberish = ...
+local _, ns = ...
 
 local frame, current
 
@@ -15,7 +15,7 @@ local function CreateChat()
 	ChatFrame_RemoveAllChannels(frame)
 	FCF_SelectDockFrame(selected)
 
-	Gibberish.Skin(frame:GetID())
+	ns.Skin(frame:GetID())
 end
 
 local Handler = CreateFrame('Frame')
