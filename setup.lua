@@ -18,7 +18,7 @@ local function Scroll(self, direction)
 	end
 end
 
-local function Skin(index)
+function ns.Skin(index)
 	local frame = _G['ChatFrame'..index]
 	frame:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
 	frame:SetShadowOffset(0, 0)
@@ -57,8 +57,6 @@ local function Skin(index)
 	ns.History(editbox)
 end
 
-ns.Skin = Skin
-
 local Handler = CreateFrame('Frame')
 Handler:RegisterEvent('PLAYER_LOGIN')
 Handler:RegisterEvent('CHAT_MSG_WHISPER')
@@ -67,7 +65,7 @@ Handler:RegisterEvent('CHAT_MSG_BN_CONVERSATION')
 Handler:SetScript('OnEvent', function(self, event)
 	if(event == 'PLAYER_LOGIN') then
 		for index = 1, 4 do
-			Skin(index)
+			ns.Skin(index)
 
 			_G['ChatFrame'..index..'Tab']:RegisterForClicks('LeftButtonUp', 'RightButtonUp')
 		end
