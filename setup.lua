@@ -57,12 +57,33 @@ function ns.Skin(index)
 	ns.History(editbox)
 end
 
+local function CreateChatFrame(index, name, ...)
+	local frame
+	if(index == 1) then
+		frame = ChatFrame1
+	else
+		frame = FCF_OpenNewWindow(name)
+	end
+
+	ChatFrame_RemoveAllMessageGroups(frame)
+	ChatFrame_RemoveAllChannels(frame)
+
+	if(...) then
+		for index = 1, select('#', ...) do
+			ChatFrame_AddMessageGroup(frame, select(index, ...))
+		end
+	end
+
+	return frame
+end
+
 local Handler = CreateFrame('Frame')
 Handler:RegisterEvent('PLAYER_LOGIN')
 Handler:RegisterEvent('CHAT_MSG_WHISPER')
 Handler:RegisterEvent('CHAT_MSG_BN_WHISPER')
 Handler:RegisterEvent('CHAT_MSG_BN_CONVERSATION')
-Handler:SetScript('OnEvent', function(self, event)
+Handler:RegisterEvent('UPDATE_CHAT_COLOR_NAME_BY_CLASS')
+Handler:SetScript('OnEvent', function(self, event, ...)
 	if(event == 'PLAYER_LOGIN') then
 		for index = 1, 4 do
 			ns.Skin(index)
@@ -81,6 +102,48 @@ Handler:SetScript('OnEvent', function(self, event)
 		ChatTypeInfo.BN_CONVERSATION.sticky = 0
 		ChatTypeInfo.GUILD.flashTabOnGeneral = true
 		ChatTypeInfo.OFFICER.flashTabOnGeneral = true
+
+		if(not GibberishDB) then
+			GibberishDB = true
+
+			SetCVar('profanityFilter', 0)
+			SetCVar('removeChatDelay', 1)
+			SetCVar('chatStyle', 'classic')
+			SetCVar('conversationMode', 'inline')
+
+			for index = 2, NUM_CHAT_WINDOWS do
+				FCF_Close(_G['ChatFrame' .. index])
+			end
+
+			CreateChatFrame(1, 'General', 'SAY', 'EMOTE', 'GUILD', 'OFFICER', 'PARTY', 'PARTY_LEADER', 'RAID', 'RAID_LEADER', 'RAID_WARNING', 'BATTLEGROUND', 'BATTLEGROUND_LEADER', 'SYSTEM', 'MONSTER_WHISPER', 'MONSTER_BOSS_WHISPER', 'ACHIEVEMENT', 'GUILD_ACHIEVEMENT', 'INSTANCE_CHAT', 'INSTANCE_CHAT_LEADER')
+			CreateChatFrame(2, 'Whisper', 'BN_WHISPER', 'BN_CONVERSATION', 'WHISPER', 'IGNORED')
+			CreateChatFrame(3, 'Loot', 'LOOT', 'COMBAT_FACTION_CHANGE')
+
+			local frame = CreateChatFrame(4, 'Channels')
+			ChatFrame_AddChannel(frame, 'General')
+			ChatFrame_AddChannel(frame, 'Trade')
+
+			SetChatWindowAlpha(1, 0)
+			SetChatWindowSavedPosition(1, 'BOTTOMLEFT', 0.003, 0.025)
+			SetChatWindowSavedDimensions(1, 400, 100)
+
+			ChangeChatColor('OFFICER', 3/4, 1/2, 1/2)
+			ChangeChatColor('RAID', 0, 1, 4/5)
+			ChangeChatColor('RAID_LEADER', 0, 1, 4/5)
+			ChangeChatColor('RAID_WARNING', 1, 1/4, 1/4)
+			ChangeChatColor('BATTLEGROUND_LEADER', 1, 1/2, 0)
+			ChangeChatColor('PARTY_LEADER', 2/3, 2/3, 1)
+			ChangeChatColor('BN_WHISPER', 1, 1/2, 1)
+			ChangeChatColor('BN_WHISPER_INFORM', 1, 1/2, 1)
+			ChangeChatColor('INSTANCE_CHAT_LEADER', 1, 1/2, 0)
+
+			FCF_SelectDockFrame(ChatFrame1)
+		end
+	elseif(event == 'UPDATE_CHAT_COLOR_NAME_BY_CLASS') then
+		local type, enabled = ...
+		if(not enabled) then
+			SetChatColorNameByClass(type, true)
+		end
 	else
 		PlaySound('TellMessage', 'master')
 	end

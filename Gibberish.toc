@@ -4,6 +4,7 @@
 ## Title: Gibberish
 ## Notes: Chat extravaganza
 ## SavedVariables: GibberishLastGM
+## SavedVariablesPerCharacter: GibberishDB
 
 libs\LibStub.lua
 libs\LibChatAnims.lua
