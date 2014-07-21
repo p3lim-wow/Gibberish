@@ -4,6 +4,7 @@
 	'(www%.%S+)',
 	'(%d+%.%d+%.%d+%.%d+:?%d*/?%S*)',
 }
+
 local numPatterns = #patterns
 
 for _, event in next, {
