@@ -19,11 +19,11 @@ do
 	FillLocalizedClassList(maleClasses)
 	FillLocalizedClassList(femaleClasses, true)
 
-	for token, localized in pairs(maleClasses) do
+	for token, localized in next, maleClasses do
 		classes[localized] = token
 	end
 
-	for token, localized in pairs(femaleClasses) do
+	for token, localized in next, femaleClasses do
 		classes[localized] = token
 	end
 end

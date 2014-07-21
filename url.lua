@@ -6,7 +6,7 @@
 }
 local numPatterns = #patterns
 
-for _, event in pairs({
+for _, event in next, {
 	'CHAT_MSG_GUILD',
 	'CHAT_MSG_PARTY',
 	'CHAT_MSG_RAID',
@@ -15,7 +15,7 @@ for _, event in pairs({
 	'CHAT_MSG_WHISPER',
 	'CHAT_MSG_BN_WHISPER',
 	'CHAT_MSG_SAY'
-}) do
+} do
 	ChatFrame_AddMessageEventFilter(event, function(self, event, str, ...)
 		for index = 1, numPatterns do
 			local result, match = string.gsub(str, patterns[index], '|cff80c8fe|Hurl:%1|h[%1]|h|r')
