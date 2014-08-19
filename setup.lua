@@ -1,6 +1,5 @@
 ﻿local _, ns = ...
-
-local FONT = [[Interface\AddOns\Gibberish\semplice.ttf]]
+ns.FONT = [[Interface\AddOns\Gibberish\semplice.ttf]]
 
 local function Scroll(self, direction)
 	if(direction > 0) then
@@ -20,7 +19,7 @@ end
 
 function ns.Skin(index)
 	local frame = _G['ChatFrame' .. index]
-	frame:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
+	frame:SetFont(ns.FONT, 8, 'OUTLINEMONOCHROME')
 	frame:SetShadowOffset(0, 0)
 	frame:SetClampRectInsets(0, 0, 0, 0)
 	frame:SetSpacing(1.4)
@@ -30,7 +29,7 @@ function ns.Skin(index)
 	editbox:ClearAllPoints()
 	editbox:SetPoint('TOPRIGHT', frame, 'BOTTOMRIGHT', 0, 5)
 	editbox:SetPoint('TOPLEFT', frame, 'BOTTOMLEFT', 0, 5)
-	editbox:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
+	editbox:SetFont(ns.FONT, 8, 'OUTLINEMONOCHROME')
 	editbox:SetShadowOffset(0, 0)
 
 	editbox.focusLeft:SetTexture(nil)
@@ -39,7 +38,7 @@ function ns.Skin(index)
 
 	editbox.header:ClearAllPoints()
 	editbox.header:SetPoint('LEFT')
-	editbox.header:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
+	editbox.header:SetFont(ns.FONT, 8, 'OUTLINEMONOCHROME')
 	editbox.header:SetShadowOffset(0, 0)
 
 	local orig = editbox.SetTextInsets

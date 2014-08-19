@@ -26,7 +26,7 @@
 
 -- This is just a very modified version of Fane by haste
 
-local FONT = [[Interface\AddOns\Gibberish\semplice.ttf]]
+local _, ns = ...
 
 local function UpdateColors(self)
 	if(self:IsMouseOver()) then
@@ -49,7 +49,7 @@ Handler:RegisterEvent('PLAYER_LOGIN')
 Handler:SetScript('OnEvent', function()
 	for index = 1, 6 do
 		local tab = _G['ChatFrame' .. index .. 'Tab']
-		tab:GetFontString():SetFont(FONT, 8, 'OUTLINEMONOCHROME')
+		tab:GetFontString():SetFont(ns.FONT, 8, 'OUTLINEMONOCHROME')
 		tab:GetFontString():SetShadowOffset(0, 0)
 
 		tab.leftTexture:SetTexture(nil)
