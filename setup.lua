@@ -1,6 +1,6 @@
 ﻿local _, ns = ...
 
-local FONT = [=[Interface\AddOns\Gibberish\semplice.ttf]=]
+local FONT = [[Interface\AddOns\Gibberish\semplice.ttf]]
 
 local function Scroll(self, direction)
 	if(direction > 0) then
@@ -19,14 +19,14 @@ local function Scroll(self, direction)
 end
 
 function ns.Skin(index)
-	local frame = _G['ChatFrame'..index]
+	local frame = _G['ChatFrame' .. index]
 	frame:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
 	frame:SetShadowOffset(0, 0)
 	frame:SetClampRectInsets(0, 0, 0, 0)
 	frame:SetSpacing(1.4)
 	frame:HookScript('OnMouseWheel', Scroll)
 
-	local editbox = _G['ChatFrame'..index..'EditBox']
+	local editbox = _G['ChatFrame' .. index .. 'EditBox']
 	editbox:ClearAllPoints()
 	editbox:SetPoint('TOPRIGHT', frame, 'BOTTOMRIGHT', 0, 5)
 	editbox:SetPoint('TOPLEFT', frame, 'BOTTOMLEFT', 0, 5)
@@ -47,12 +47,12 @@ function ns.Skin(index)
 		orig(self, self.header:GetWidth(), 0, 0, 0)
 	end
 
-	_G['ChatFrame'..index..'ButtonFrame']:Hide()
-	_G['ChatFrame'..index..'EditBoxLeft']:SetTexture(nil)
-	_G['ChatFrame'..index..'EditBoxMid']:SetTexture(nil)
-	_G['ChatFrame'..index..'EditBoxRight']:SetTexture(nil)
+	_G['ChatFrame' .. index .. 'ButtonFrame']:Hide()
+	_G['ChatFrame' .. index .. 'EditBoxLeft']:SetTexture(nil)
+	_G['ChatFrame' .. index .. 'EditBoxMid']:SetTexture(nil)
+	_G['ChatFrame' .. index .. 'EditBoxRight']:SetTexture(nil)
 
-	_G['ChatFrame'..index..'Tab']:SetScript('OnDragStart', nil)
+	_G['ChatFrame' .. index .. 'Tab']:SetScript('OnDragStart', nil)
 
 	ns.History(editbox)
 end
@@ -137,7 +137,7 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 			if(index ~= 2) then
 				ns.Skin(index)
 
-				_G['ChatFrame'..index..'Tab']:RegisterForClicks('LeftButtonUp', 'RightButtonUp')
+				_G['ChatFrame' .. index .. 'Tab']:RegisterForClicks('LeftButtonUp', 'RightButtonUp')
 			end
 		end
 

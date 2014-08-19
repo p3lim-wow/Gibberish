@@ -74,14 +74,14 @@ local function AddMessage(self, message, ...)
 	message = string_gsub(message, '^(.-|h) whispers', '%1')
 	message = string_gsub(message, '^(.-|h) says', '%1')
 	message = string_gsub(message, '^(.-|h) yells', '%1')
-	message = string_gsub(message, '^%['..RAID_WARNING..'%]', 'w')
+	message = string_gsub(message, '^%[' .. RAID_WARNING .. '%]', 'w')
 
 	return hooks[self](self, message, ...)
 end
 
 for index = 1, 5 do
 	if(index ~= 2) then
-		local frame = _G['ChatFrame'..index]
+		local frame = _G['ChatFrame' .. index]
 		hooks[frame] = frame.AddMessage
 		frame.AddMessage = AddMessage
 	end

@@ -3,7 +3,7 @@ local _, ns = ...
 local frame, current
 
 local getString = '|TInterface\\ChatFrame\\UI-ChatIcon-Blizz:14:22:-1:-2:32:16:4:26:0:16|t|cff0090ff|HplayerGM:%s|h%s|h|r: %s'
-local informString = '|cffA1A1A1@|r|TInterface\\ChatFrame\\UI-ChatIcon-Blizz:14:22:-1:-2:32:16:4:26:0:16|t|cff0090ff|HplayerGM:%s|h%s|h|r: %s'
+local informString = '|cffa1a1a1@|r|TInterface\\ChatFrame\\UI-ChatIcon-Blizz:14:22:-1:-2:32:16:4:26:0:16|t|cff0090ff|HplayerGM:%s|h%s|h|r: %s'
 local sessionString = '|TInterface\\ChatFrame\\UI-ChatIcon-Blizz:14:22:-1:-2:32:16:4:26:0:16|t|cff0090ff|HplayerGM:%s|h%s|h|r'
 
 local function CreateChat()
