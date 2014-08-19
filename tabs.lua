@@ -47,7 +47,7 @@ end
 local Handler = CreateFrame('Frame')
 Handler:RegisterEvent('PLAYER_LOGIN')
 Handler:SetScript('OnEvent', function()
-	for index = 1, 5 do
+	for index = 1, 6 do
 		local tab = _G['ChatFrame'..index..'Tab']
 		tab:GetFontString():SetFont(FONT, 8, 'OUTLINEMONOCHROME')
 		tab:GetFontString():SetShadowOffset(0, 0)

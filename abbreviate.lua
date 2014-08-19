@@ -79,8 +79,10 @@ local function AddMessage(self, message, ...)
 	return hooks[self](self, message, ...)
 end
 
-for index = 1, 4 do
-	local frame = _G['ChatFrame'..index]
-	hooks[frame] = frame.AddMessage
-	frame.AddMessage = AddMessage
+for index = 1, 5 do
+	if(index ~= 2) then
+		local frame = _G['ChatFrame'..index]
+		hooks[frame] = frame.AddMessage
+		frame.AddMessage = AddMessage
+	end
 end

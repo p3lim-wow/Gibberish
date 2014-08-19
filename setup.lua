@@ -85,23 +85,7 @@ Handler:RegisterEvent('CHAT_MSG_BN_CONVERSATION')
 Handler:RegisterEvent('UPDATE_CHAT_COLOR_NAME_BY_CLASS')
 Handler:SetScript('OnEvent', function(self, event, ...)
 	if(event == 'PLAYER_LOGIN') then
-		for index = 1, 4 do
-			ns.Skin(index)
-
-			_G['ChatFrame'..index..'Tab']:RegisterForClicks('LeftButtonUp', 'RightButtonUp')
-		end
-
 		DEFAULT_CHATFRAME_ALPHA = 0
-		ChatFrameMenuButton:SetAlpha(0)
-		ChatFrameMenuButton:EnableMouse(false)
-		FriendsMicroButton:Hide()
-
-		ChatTypeInfo.CHANNEL.sticky = 0
-		ChatTypeInfo.WHISPER.sticky = 0
-		ChatTypeInfo.BN_WHISPER.sticky = 0
-		ChatTypeInfo.BN_CONVERSATION.sticky = 0
-		ChatTypeInfo.GUILD.flashTabOnGeneral = true
-		ChatTypeInfo.OFFICER.flashTabOnGeneral = true
 
 		if(not GibberishDB) then
 			GibberishDB = true
@@ -122,10 +106,10 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 			end
 
 			CreateChatFrame(1, 'General', 'SAY', 'EMOTE', 'GUILD', 'OFFICER', 'PARTY', 'PARTY_LEADER', 'RAID', 'RAID_LEADER', 'RAID_WARNING', 'BATTLEGROUND', 'BATTLEGROUND_LEADER', 'SYSTEM', 'MONSTER_WHISPER', 'MONSTER_BOSS_WHISPER', 'ACHIEVEMENT', 'GUILD_ACHIEVEMENT', 'INSTANCE_CHAT', 'INSTANCE_CHAT_LEADER')
-			CreateChatFrame(2, 'Whisper', 'BN_WHISPER', 'BN_CONVERSATION', 'WHISPER', 'IGNORED')
-			CreateChatFrame(3, 'Loot', 'LOOT', 'COMBAT_FACTION_CHANGE')
+			CreateChatFrame(3, 'Whisper', 'BN_WHISPER', 'BN_CONVERSATION', 'WHISPER', 'IGNORED')
+			CreateChatFrame(4, 'Loot', 'LOOT', 'COMBAT_FACTION_CHANGE')
 
-			local frame = CreateChatFrame(4, 'Channels')
+			local frame = CreateChatFrame(5, 'Channels')
 			ChatFrame_AddChannel(frame, 'General')
 			ChatFrame_AddChannel(frame, 'Trade')
 
@@ -148,6 +132,27 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 
 			FCF_SelectDockFrame(ChatFrame1)
 		end
+
+		for index = 1, 5 do
+			if(index ~= 2) then
+				ns.Skin(index)
+
+				_G['ChatFrame'..index..'Tab']:RegisterForClicks('LeftButtonUp', 'RightButtonUp')
+			end
+		end
+
+		ChatFrameMenuButton:SetAlpha(0)
+		ChatFrameMenuButton:EnableMouse(false)
+		FriendsMicroButton:Hide()
+
+		ChatTypeInfo.CHANNEL.sticky = 0
+		ChatTypeInfo.WHISPER.sticky = 0
+		ChatTypeInfo.BN_WHISPER.sticky = 0
+		ChatTypeInfo.BN_CONVERSATION.sticky = 0
+		ChatTypeInfo.GUILD.flashTabOnGeneral = true
+		ChatTypeInfo.OFFICER.flashTabOnGeneral = true
+
+		FCF_Close(ChatFrame2)
 	elseif(event == 'UPDATE_CHAT_COLOR_NAME_BY_CLASS') then
 		local type, enabled = ...
 		if(not enabled) then
@@ -157,5 +162,3 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 		PlaySound('TellMessage', 'master')
 	end
 end)
-
-function CombatLog_LoadUI() end
