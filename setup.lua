@@ -107,8 +107,14 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 			GibberishDB = true
 
 			SetCVar('profanityFilter', 0)
+			SetCVar('spamFilter', 0)
 			SetCVar('removeChatDelay', 1)
+			SetCVar('guildMemberNotify', 1)
+			SetCVar('chatMouseScroll', 1)
 			SetCVar('chatStyle', 'classic')
+			SetCVar('showTimestamps', 'none')
+			SetCVar('whisperMode', 'inline')
+			SetCVar('bnWhisperMode', 'inline')
 			SetCVar('conversationMode', 'inline')
 
 			for index = 2, NUM_CHAT_WINDOWS do
