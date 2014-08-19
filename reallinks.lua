@@ -1,53 +1,82 @@
-local function GetLinkColor(data)
-	local type, arg1, arg2, arg3 = string.match(data, '(%w+):(%d+):(%d+):(%d+)')
+local queriedItems = {}
+local staticColors = {
+	achievement = 'ffffff00',
+	battlepet = 'ffffd200',
+	enchant = 'ffffd000',
+	glyph = 'ff66bbff',
+	instancelock = 'ffff8000',
+	levelup = 'ffff4e00',
+	spell = 'ff71d5ff',
+	talent = 'ff4e96f7'
+}
+
+staticColors.trade = staticColors.enchant
+staticColors.journal = staticColors.glyph
+staticColors.battlePetAbil = staticColors.talent
+
+local gsub = string.gsub
+local match = string.match
+local split = string.split
+local sub = string.sub
+
+local function GetLinkColor(linkString, ...)
+	local type, arg1, arg2, arg3 = split(':', linkString)
 	if(type == 'item') then
 		local _, _, quality = GetItemInfo(arg1)
 		if(quality) then
 			local _, _, _, hex = GetItemQualityColor(quality)
-			return '|c' .. hex
-		else
-			-- Item is not cached yet, show a white color instead
-			-- Would like to fix this somehow
-			return '|cffffffff'
+			return hex
+		elseif(...) then
+			table.insert(queriedItems, {
+				linkString = linkString,
+				args = {...}
+			})
+
+			return false
 		end
-	elseif(type == 'battlepet') then
-		if(arg3 ~= -1) then
-			local _, _, _, hex = GetItemQualityColor(arg3)
-			return '|c' .. hex
-		else
-			return '|cffffd200'
-		end
+	elseif(type == 'battlepet' and arg3 ~= -1) then
+		local _, _, _, hex = GetItemQualityColor(arg3)
+		return hex
 	elseif(type == 'quest') then
-		local color = GetQuestDifficultyColor(arg2)
-		return format('|cff%2x%2x%2x', color.r * 255, color.g * 255, color.b * 255)
-	elseif(type == 'spell') then
-		return '|cff71d5ff'
-	elseif(type == 'achievement') then
-		return '|cffffff00'
-	elseif(type == 'trade' or type == 'enchant') then
-		return '|cffffd000'
-	elseif(type == 'instancelock') then
-		return '|cffff8000'
-	elseif(type == 'glyph' or type == 'journal') then
-		return '|cff66bbff'
-	elseif(type == 'talent' or type == 'battlePetAbil') then
-		return '|cff4e96f7'
-	elseif(type == 'levelup') then
-		return '|cffFF4E00'
+		return sub(ConvertRGBtoColorString(GetQuestDifficultyColor(arg2)), 3, 10)
 	else
-		return '|cffffffff'
+		return staticColors[type]
 	end
 end
 
-local function AddLinkColors(self, event, msg, ...)
-	local data = string.match(msg, '|H(.-)|h(.-)|h')
-	if(data) then
-		local newmsg = string.gsub(msg, '|H(.-)|h(.-)|h', GetLinkColor(data) .. '|H%1|h%2|h|r')
-		return false, newmsg, ...
-	else
-		return false, msg, ...
+local function AddLinkColors(self, event, message, ...)
+	local linkString = match(message, '|H(.-)|h')
+	if(linkString) then
+		local color = GetLinkColor(linkString, self, event, message, ...)
+		if(color) then
+			return false, gsub(message, '(|H.-|h.-|h)', '|c' .. color .. '%1|r'), ...
+		else
+			return true
+		end
 	end
+
+	return false, message, ...
 end
 
 ChatFrame_AddMessageEventFilter('CHAT_MSG_BN_WHISPER', AddLinkColors)
 ChatFrame_AddMessageEventFilter('CHAT_MSG_BN_WHISPER_INFORM', AddLinkColors)
+
+local function ParseMessage(color, frame, event, message, ...)
+	if(color) then
+		message = gsub(message, '(|H.-|h.-|h)', '|c' .. color .. '%1|r')
+	end
+
+	ChatFrame_MessageEventHandler(frame, event, message, ...)
+end
+
+local Handler = CreateFrame('Frame')
+Handler:RegisterEvent('GET_ITEM_INFO_RECEIVED')
+Handler:SetScript('OnEvent', function()
+	if(#queriedItems > 0) then
+		for index, data in next, queriedItems do
+			ParseMessage(GetLinkColor(data.linkString), unpack(data.args))
+
+			queriedItems[index] = nil
+		end
+	end
+end)
