@@ -51,8 +51,6 @@ local function AddLinkColors(self, event, message, ...)
 		local color = GetLinkColor(linkString, self, event, message, ...)
 		if(color) then
 			return false, gsub(message, '(|H.-|h.-|h)', '|c' .. color .. '%1|r'), ...
-		else
-			return true
 		end
 	end
 
