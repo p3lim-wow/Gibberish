@@ -107,6 +107,7 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 			end
 
 			CreateChatFrame(1, 'General', 'SAY', 'EMOTE', 'GUILD', 'OFFICER', 'PARTY', 'PARTY_LEADER', 'RAID', 'RAID_LEADER', 'RAID_WARNING', 'BATTLEGROUND', 'BATTLEGROUND_LEADER', 'SYSTEM', 'MONSTER_WHISPER', 'MONSTER_BOSS_WHISPER', 'ACHIEVEMENT', 'GUILD_ACHIEVEMENT', 'INSTANCE_CHAT', 'INSTANCE_CHAT_LEADER')
+			CreateChatFrame(2, 'Combat')
 			CreateChatFrame(3, 'Whisper', 'BN_WHISPER', 'BN_CONVERSATION', 'WHISPER', 'IGNORED')
 			CreateChatFrame(4, 'Loot', 'LOOT', 'COMBAT_FACTION_CHANGE')
 
