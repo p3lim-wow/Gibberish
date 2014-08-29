@@ -54,7 +54,7 @@ local function AddLinkColors(self, event, message, ...)
 		end
 	end
 
-	return false, message, ...
+	return false
 end
 
 ChatFrame_AddMessageEventFilter('CHAT_MSG_BN_WHISPER', AddLinkColors)
