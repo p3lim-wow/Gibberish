@@ -7,7 +7,8 @@ local staticColors = {
 	instancelock = 'ffff8000',
 	levelup = 'ffff4e00',
 	spell = 'ff71d5ff',
-	talent = 'ff4e96f7'
+	talent = 'ff4e96f7',
+	quest = 'ffd100'
 }
 
 staticColors.trade = staticColors.enchant
@@ -37,7 +38,7 @@ local function GetLinkColor(linkString, ...)
 	elseif(type == 'battlepet' and arg3 ~= -1) then
 		local _, _, _, hex = GetItemQualityColor(arg3)
 		return hex
-	elseif(type == 'quest') then
+	elseif(type == 'quest' and arg2) then
 		return sub(ConvertRGBtoColorString(GetQuestDifficultyColor(arg2)), 3, 10)
 	else
 		return staticColors[type]
