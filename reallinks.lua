@@ -15,6 +15,15 @@ staticColors.trade = staticColors.enchant
 staticColors.journal = staticColors.glyph
 staticColors.battlePetAbil = staticColors.talent
 
+--[[
+? garrfollowerability
+? garrfollower
+? garrmission
+? journal
+
+currency - has no actual color api
+--]]
+
 local gsub = string.gsub
 local match = string.match
 local split = string.split
