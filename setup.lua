@@ -1,5 +1,3 @@
-local WoD = select(4, GetBuildInfo()) >= 6e4
-
 local _, ns = ...
 ns.FONT = [[Interface\AddOns\Gibberish\semplice.ttf]]
 
@@ -133,12 +131,6 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 			ChangeChatColor('INSTANCE_CHAT_LEADER', 1, 1/2, 0)
 
 			FCF_SelectDockFrame(ChatFrame1)
-		end
-
-		if(WoD) then
-			ChatFrame_RemoveAllChannels(ChatFrame1)
-			ChatFrame_AddChannel(ChatFrame5, 'General')
-			ChatFrame_AddChannel(ChatFrame5, 'Trade')
 		end
 
 		for index = 1, 5 do
