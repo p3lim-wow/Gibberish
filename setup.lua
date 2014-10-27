@@ -56,14 +56,8 @@ function ns.Skin(index)
 	ns.History(editbox)
 end
 
-local function CreateChatFrame(index, name, ...)
-	local frame
-	if(index == 1) then
-		frame = ChatFrame1
-	else
-		frame = FCF_OpenNewWindow(name)
-	end
-
+local function CreateChatFrame(name, ...)
+	local frame = name and FCF_OpenNewWindow(name) or ChatFrame1
 	ChatFrame_RemoveAllMessageGroups(frame)
 	ChatFrame_RemoveAllChannels(frame)
 
@@ -104,21 +98,21 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 				FCF_Close(_G['ChatFrame' .. index])
 			end
 
-			CreateChatFrame(1, 'General', 'SAY', 'EMOTE', 'GUILD', 'OFFICER', 'PARTY', 'PARTY_LEADER', 'RAID', 'RAID_LEADER', 'RAID_WARNING', 'BATTLEGROUND', 'BATTLEGROUND_LEADER', 'SYSTEM', 'MONSTER_WHISPER', 'MONSTER_BOSS_WHISPER', 'ACHIEVEMENT', 'GUILD_ACHIEVEMENT', 'INSTANCE_CHAT', 'INSTANCE_CHAT_LEADER')
-			CreateChatFrame(2, 'Combat')
-			CreateChatFrame(3, 'Whisper', 'BN_WHISPER', 'BN_CONVERSATION', 'WHISPER', 'IGNORED')
-			CreateChatFrame(4, 'Loot', 'LOOT', 'COMBAT_FACTION_CHANGE')
+			local parent = CreateChatFrame(nil, 'SAY', 'EMOTE', 'GUILD', 'OFFICER', 'PARTY', 'PARTY_LEADER', 'RAID', 'RAID_LEADER', 'RAID_WARNING', 'BATTLEGROUND', 'BATTLEGROUND_LEADER', 'SYSTEM', 'MONSTER_WHISPER', 'MONSTER_BOSS_WHISPER', 'ACHIEVEMENT', 'GUILD_ACHIEVEMENT', 'INSTANCE_CHAT', 'INSTANCE_CHAT_LEADER')
+			CreateChatFrame('Combat')
+			CreateChatFrame('Whisper', 'BN_WHISPER', 'BN_CONVERSATION', 'WHISPER', 'IGNORED')
+			CreateChatFrame('Loot', 'LOOT', 'COMBAT_FACTION_CHANGE')
 
-			local frame = CreateChatFrame(5, 'Channels')
+			local frame = CreateChatFrame('Channels')
 			ChatFrame_AddChannel(frame, 'General')
 			ChatFrame_AddChannel(frame, 'Trade')
 
-			ChatFrame1:SetUserPlaced(true)
-			ChatFrame1:ClearAllPoints()
-			ChatFrame1:SetPoint('BOTTOMLEFT', UIParent, 35, 50)
-			ChatFrame1:SetSize(400, 100)
-			FCF_SavePositionAndDimensions(ChatFrame1)
-			FCF_SetWindowAlpha(ChatFrame1, 0)
+			parent:SetUserPlaced(true)
+			parent:ClearAllPoints()
+			parent:SetPoint('BOTTOMLEFT', UIParent, 35, 50)
+			parent:SetSize(400, 100)
+			FCF_SavePositionAndDimensions(parent)
+			FCF_SetWindowAlpha(parent, 0)
 
 			ChangeChatColor('OFFICER', 3/4, 1/2, 1/2)
 			ChangeChatColor('RAID', 0, 1, 4/5)
@@ -130,7 +124,7 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 			ChangeChatColor('BN_WHISPER_INFORM', 1, 1/2, 1)
 			ChangeChatColor('INSTANCE_CHAT_LEADER', 1, 1/2, 0)
 
-			FCF_SelectDockFrame(ChatFrame1)
+			FCF_SelectDockFrame(parent)
 		end
 
 		for index = 1, 5 do
