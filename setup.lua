@@ -1,5 +1,6 @@
 local _, ns = ...
-ns.FONT = [[Interface\AddOns\Gibberish\semplice.ttf]]
+
+local FONT = [[Interface\AddOns\Gibberish\semplice.ttf]]
 
 local function Scroll(self, direction)
 	if(direction > 0) then
@@ -17,19 +18,39 @@ local function Scroll(self, direction)
 	end
 end
 
+local function UpdateTab(self)
+	if(self:GetObjectType() ~= 'Button') then
+		self = _G[self:GetName() .. 'Tab']
+	end
+
+	local tab = self.fontString
+	if(tab) then
+		if(self:IsMouseOver()) then
+			tab:SetTextColor(0, 0.6, 1)
+		elseif(self.alerting) then
+			tab:SetTextColor(1, 0, 0)
+		elseif(self:GetID() == SELECTED_CHAT_FRAME:GetID()) then
+			tab:SetTextColor(1, 1, 1)
+		else
+			tab:SetTextColor(0.5, 0.5, 0.5)
+		end
+	end
+end
+
 function ns.Skin(index)
 	local frame = _G['ChatFrame' .. index]
-	frame:SetFont(ns.FONT, 8, 'OUTLINEMONOCHROME')
+	frame:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
 	frame:SetShadowOffset(0, 0)
 	frame:SetClampRectInsets(0, 0, 0, 0)
 	frame:SetSpacing(1.4)
 	frame:HookScript('OnMouseWheel', Scroll)
+	frame.buttonFrame:Hide()
 
 	local editbox = _G['ChatFrame' .. index .. 'EditBox']
 	editbox:ClearAllPoints()
 	editbox:SetPoint('TOPRIGHT', frame, 'BOTTOMRIGHT', 0, 5)
 	editbox:SetPoint('TOPLEFT', frame, 'BOTTOMLEFT', 0, 5)
-	editbox:SetFont(ns.FONT, 8, 'OUTLINEMONOCHROME')
+	editbox:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
 	editbox:SetShadowOffset(0, 0)
 
 	editbox.focusLeft:SetTexture(nil)
@@ -38,7 +59,7 @@ function ns.Skin(index)
 
 	editbox.header:ClearAllPoints()
 	editbox.header:SetPoint('LEFT')
-	editbox.header:SetFont(ns.FONT, 8, 'OUTLINEMONOCHROME')
+	editbox.header:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
 	editbox.header:SetShadowOffset(0, 0)
 
 	local orig = editbox.SetTextInsets
@@ -46,12 +67,39 @@ function ns.Skin(index)
 		orig(self, self.header:GetWidth(), 0, 0, 0)
 	end
 
-	_G['ChatFrame' .. index .. 'ButtonFrame']:Hide()
 	_G['ChatFrame' .. index .. 'EditBoxLeft']:SetTexture(nil)
 	_G['ChatFrame' .. index .. 'EditBoxMid']:SetTexture(nil)
 	_G['ChatFrame' .. index .. 'EditBoxRight']:SetTexture(nil)
 
-	_G['ChatFrame' .. index .. 'Tab']:SetScript('OnDragStart', nil)
+	local tab = _G['ChatFrame' .. index .. 'Tab']
+	tab.fontString = tab:GetFontString()
+	tab.fontString:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
+	tab.fontString:SetShadowOffset(0, 0)
+
+	tab.leftTexture:SetTexture(nil)
+	tab.middleTexture:SetTexture(nil)
+	tab.rightTexture:SetTexture(nil)
+
+	tab.leftHighlightTexture:SetTexture(nil)
+	tab.middleHighlightTexture:SetTexture(nil)
+	tab.rightHighlightTexture:SetTexture(nil)
+
+	tab.leftSelectedTexture:SetTexture(nil)
+	tab.middleSelectedTexture:SetTexture(nil)
+	tab.rightSelectedTexture:SetTexture(nil)
+
+	if(tab.conversationIcon) then
+		tab.conversationIcon:SetTexture(nil)
+	end
+
+	tab.glow:SetTexture(nil)
+	tab:SetAlpha(0)
+
+	tab:HookScript('OnEnter', UpdateTab)
+	tab:HookScript('OnLeave', UpdateTab)
+	tab:SetScript('OnDragStart', nil)
+
+	UpdateTab(tab)
 
 	ns.History(editbox)
 end
@@ -79,6 +127,9 @@ Handler:RegisterEvent('UPDATE_CHAT_COLOR_NAME_BY_CLASS')
 Handler:SetScript('OnEvent', function(self, event, ...)
 	if(event == 'PLAYER_LOGIN') then
 		DEFAULT_CHATFRAME_ALPHA = 0
+		CHAT_FRAME_TAB_SELECTED_NOMOUSE_ALPHA = 0
+		CHAT_FRAME_TAB_NORMAL_NOMOUSE_ALPHA = 0
+		CHAT_FRAME_TAB_NORMAL_MOUSEOVER_ALPHA = 0.7
 
 		if(not GibberishDB) then
 			GibberishDB = true
@@ -101,7 +152,7 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 			local parent = CreateChatFrame(nil, 'SAY', 'EMOTE', 'GUILD', 'OFFICER', 'PARTY', 'PARTY_LEADER', 'RAID', 'RAID_LEADER', 'RAID_WARNING', 'BATTLEGROUND', 'BATTLEGROUND_LEADER', 'SYSTEM', 'MONSTER_WHISPER', 'MONSTER_BOSS_WHISPER', 'ACHIEVEMENT', 'GUILD_ACHIEVEMENT', 'INSTANCE_CHAT', 'INSTANCE_CHAT_LEADER')
 			CreateChatFrame('Combat')
 			CreateChatFrame('Whisper', 'BN_WHISPER', 'BN_CONVERSATION', 'WHISPER', 'IGNORED')
-			CreateChatFrame('Loot', 'LOOT', 'COMBAT_FACTION_CHANGE')
+			CreateChatFrame('Loot', 'LOOT', 'COMBAT_FACTION_CHANGE', 'CURRENCY', 'MONEY')
 
 			local frame = CreateChatFrame('Channels')
 			ChatFrame_AddChannel(frame, 'General')
@@ -111,6 +162,7 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 			parent:ClearAllPoints()
 			parent:SetPoint('BOTTOMLEFT', UIParent, 35, 50)
 			parent:SetSize(400, 100)
+
 			FCF_SavePositionAndDimensions(parent)
 			FCF_SetWindowAlpha(parent, 0)
 
@@ -125,6 +177,7 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 			ChangeChatColor('INSTANCE_CHAT_LEADER', 1, 1/2, 0)
 
 			FCF_SelectDockFrame(parent)
+			FCF_Close(ChatFrame2)
 		end
 
 		for index = 1, 5 do
@@ -135,6 +188,7 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 			end
 		end
 
+		ChatFrame2:SetClampedToScreen(false)
 		ChatFrameMenuButton:SetAlpha(0)
 		ChatFrameMenuButton:EnableMouse(false)
 		FriendsMicroButton:Hide()
@@ -146,7 +200,9 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 		ChatTypeInfo.GUILD.flashTabOnGeneral = true
 		ChatTypeInfo.OFFICER.flashTabOnGeneral = true
 
-		FCF_Close(ChatFrame2)
+		hooksecurefunc('FCFTab_UpdateColors', UpdateTab)
+		hooksecurefunc('FCF_StartAlertFlash', UpdateTab)
+		hooksecurefunc('FCF_FadeOutChatFrame', UpdateTab)
 	elseif(event == 'UPDATE_CHAT_COLOR_NAME_BY_CLASS') then
 		local type, enabled = ...
 		if(not enabled) then
