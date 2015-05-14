@@ -43,6 +43,13 @@ local function FormatPlayer(info, name)
 	return format('|Hplayer:%s|h%s|h', info, gsub(name, '%-[^|]+', ''))
 end
 
+local clientColors = {
+	[BNET_CLIENT_D3] = 'b71709',
+	[BNET_CLIENT_SC2] = '00b6ff',
+	[BNET_CLIENT_WTCG] = 'd37000',
+	[BNET_CLIENT_HEROES] = '6800c4',
+}
+
 local function FormatBNPlayer(info, name)
 	local friendIndex = BNGetFriendIndex(match(info, '(%d+):'))
 	if(friendIndex and friendIndex ~= 0) then
@@ -50,12 +57,11 @@ local function FormatBNPlayer(info, name)
 		if(client == BNET_CLIENT_WOW) then
 			local colors = RAID_CLASS_COLORS[classes[localizedClass]]
 			return format('|HBNplayer:%s|h|c%s%s|r|h', info, colors.colorStr, toon)
-		elseif(client == BNET_CLIENT_D3) then
-			return format('|HBNplayer:%s|h|cffb71709%s|r|h', info, toon)
-		elseif(client == BNET_CLIENT_SC2) then
-			return format('|HBNplayer:%s|h|cff00b6ff%s|r|h', info, toon)
-		elseif(client == BNET_CLIENT_WTCG) then
-			return format('|HBNplayer:%s|h|cff1b1327%s|r|h', info, toon)
+		else
+			local color = clientColors[client]
+			if(color) then
+				return format('|HBNplayer:%s|h#|cff%s%s|r|h', info, color, toon)
+			end
 		end
 	end
 
