@@ -23,47 +23,47 @@ local function UpdateTab(self)
 		self = _G[self:GetName() .. 'Tab']
 	end
 
-	local tab = self.fontString
-	if(tab) then
+	local Tab = self.fontString
+	if(Tab) then
 		if(self:IsMouseOver()) then
-			tab:SetTextColor(0, 0.6, 1)
+			Tab:SetTextColor(0, 0.6, 1)
 		elseif(self.alerting) then
-			tab:SetTextColor(1, 0, 0)
+			Tab:SetTextColor(1, 0, 0)
 		elseif(self:GetID() == SELECTED_CHAT_FRAME:GetID()) then
-			tab:SetTextColor(1, 1, 1)
+			Tab:SetTextColor(1, 1, 1)
 		else
-			tab:SetTextColor(0.5, 0.5, 0.5)
+			Tab:SetTextColor(0.5, 0.5, 0.5)
 		end
 	end
 end
 
 function ns.Skin(index)
-	local frame = _G['ChatFrame' .. index]
-	frame:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
-	frame:SetShadowOffset(0, 0)
-	frame:SetClampRectInsets(0, 0, 0, 0)
-	frame:SetSpacing(1.4)
-	frame:HookScript('OnMouseWheel', Scroll)
-	frame.buttonFrame:Hide()
+	local Frame = _G['ChatFrame' .. index]
+	Frame:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
+	Frame:SetShadowOffset(0, 0)
+	Frame:SetClampRectInsets(0, 0, 0, 0)
+	Frame:SetSpacing(1.4)
+	Frame:HookScript('OnMouseWheel', Scroll)
+	Frame.buttonFrame:Hide()
 
-	local editbox = _G['ChatFrame' .. index .. 'EditBox']
-	editbox:ClearAllPoints()
-	editbox:SetPoint('TOPRIGHT', frame, 'BOTTOMRIGHT', 0, 5)
-	editbox:SetPoint('TOPLEFT', frame, 'BOTTOMLEFT', 0, 5)
-	editbox:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
-	editbox:SetShadowOffset(0, 0)
+	local EditBox = _G['ChatFrame' .. index .. 'EditBox']
+	EditBox:ClearAllPoints()
+	EditBox:SetPoint('TOPRIGHT', Frame, 'BOTTOMRIGHT', 0, 5)
+	EditBox:SetPoint('TOPLEFT', Frame, 'BOTTOMLEFT', 0, 5)
+	EditBox:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
+	EditBox:SetShadowOffset(0, 0)
 
-	editbox.focusLeft:SetTexture(nil)
-	editbox.focusMid:SetTexture(nil)
-	editbox.focusRight:SetTexture(nil)
+	EditBox.focusLeft:SetTexture(nil)
+	EditBox.focusMid:SetTexture(nil)
+	EditBox.focusRight:SetTexture(nil)
 
-	editbox.header:ClearAllPoints()
-	editbox.header:SetPoint('LEFT')
-	editbox.header:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
-	editbox.header:SetShadowOffset(0, 0)
+	EditBox.header:ClearAllPoints()
+	EditBox.header:SetPoint('LEFT')
+	EditBox.header:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
+	EditBox.header:SetShadowOffset(0, 0)
 
-	local orig = editbox.SetTextInsets
-	editbox.SetTextInsets = function(self)
+	local orig = EditBox.SetTextInsets
+	EditBox.SetTextInsets = function(self)
 		orig(self, self.header:GetWidth(), 0, 0, 0)
 	end
 
@@ -71,51 +71,51 @@ function ns.Skin(index)
 	_G['ChatFrame' .. index .. 'EditBoxMid']:SetTexture(nil)
 	_G['ChatFrame' .. index .. 'EditBoxRight']:SetTexture(nil)
 
-	local tab = _G['ChatFrame' .. index .. 'Tab']
-	tab.fontString = tab:GetFontString()
-	tab.fontString:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
-	tab.fontString:SetShadowOffset(0, 0)
+	local Tab = _G['ChatFrame' .. index .. 'Tab']
+	Tab.fontString = Tab:GetFontString()
+	Tab.fontString:SetFont(FONT, 8, 'OUTLINEMONOCHROME')
+	Tab.fontString:SetShadowOffset(0, 0)
 
-	tab.leftTexture:SetTexture(nil)
-	tab.middleTexture:SetTexture(nil)
-	tab.rightTexture:SetTexture(nil)
+	Tab.leftTexture:SetTexture(nil)
+	Tab.middleTexture:SetTexture(nil)
+	Tab.rightTexture:SetTexture(nil)
 
-	tab.leftHighlightTexture:SetTexture(nil)
-	tab.middleHighlightTexture:SetTexture(nil)
-	tab.rightHighlightTexture:SetTexture(nil)
+	Tab.leftHighlightTexture:SetTexture(nil)
+	Tab.middleHighlightTexture:SetTexture(nil)
+	Tab.rightHighlightTexture:SetTexture(nil)
 
-	tab.leftSelectedTexture:SetTexture(nil)
-	tab.middleSelectedTexture:SetTexture(nil)
-	tab.rightSelectedTexture:SetTexture(nil)
+	Tab.leftSelectedTexture:SetTexture(nil)
+	Tab.middleSelectedTexture:SetTexture(nil)
+	Tab.rightSelectedTexture:SetTexture(nil)
 
-	if(tab.conversationIcon) then
-		tab.conversationIcon:SetTexture(nil)
+	if(Tab.conversationIcon) then
+		Tab.conversationIcon:SetTexture(nil)
 	end
 
-	tab.glow:SetTexture(nil)
-	tab:SetAlpha(0)
+	Tab.glow:SetTexture(nil)
+	Tab:SetAlpha(0)
 
-	tab:HookScript('OnEnter', UpdateTab)
-	tab:HookScript('OnLeave', UpdateTab)
-	tab:SetScript('OnDragStart', nil)
+	Tab:HookScript('OnEnter', UpdateTab)
+	Tab:HookScript('OnLeave', UpdateTab)
+	Tab:SetScript('OnDragStart', nil)
 
-	UpdateTab(tab)
+	UpdateTab(Tab)
 
-	ns.History(editbox)
+	ns.History(EditBox)
 end
 
 local function CreateChatFrame(name, ...)
-	local frame = name and FCF_OpenNewWindow(name) or ChatFrame1
-	ChatFrame_RemoveAllMessageGroups(frame)
-	ChatFrame_RemoveAllChannels(frame)
+	local Frame = name and FCF_OpenNewWindow(name) or ChatFrame1
+	ChatFrame_RemoveAllMessageGroups(Frame)
+	ChatFrame_RemoveAllChannels(Frame)
 
 	if(...) then
 		for index = 1, select('#', ...) do
-			ChatFrame_AddMessageGroup(frame, select(index, ...))
+			ChatFrame_AddMessageGroup(Frame, select(index, ...))
 		end
 	end
 
-	return frame
+	return Frame
 end
 
 local Handler = CreateFrame('Frame')
@@ -154,9 +154,9 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 			CreateChatFrame('Whisper', 'BN_WHISPER', 'WHISPER', 'IGNORED')
 			CreateChatFrame('Loot', 'LOOT', 'COMBAT_FACTION_CHANGE', 'CURRENCY', 'MONEY')
 
-			local frame = CreateChatFrame('Channels')
-			ChatFrame_AddChannel(frame, 'General')
-			ChatFrame_AddChannel(frame, 'Trade')
+			local Frame = CreateChatFrame('Channels')
+			ChatFrame_AddChannel(Frame, 'General')
+			ChatFrame_AddChannel(Frame, 'Trade')
 
 			parent:SetUserPlaced(true)
 			parent:ClearAllPoints()
