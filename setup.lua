@@ -151,7 +151,7 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 
 			local parent = CreateChatFrame(nil, 'SAY', 'EMOTE', 'GUILD', 'OFFICER', 'PARTY', 'PARTY_LEADER', 'RAID', 'RAID_LEADER', 'RAID_WARNING', 'BATTLEGROUND', 'BATTLEGROUND_LEADER', 'SYSTEM', 'MONSTER_WHISPER', 'MONSTER_BOSS_WHISPER', 'ACHIEVEMENT', 'GUILD_ACHIEVEMENT', 'INSTANCE_CHAT', 'INSTANCE_CHAT_LEADER')
 			CreateChatFrame('Combat')
-			CreateChatFrame('Whisper', 'BN_WHISPER', 'BN_CONVERSATION', 'WHISPER', 'IGNORED')
+			CreateChatFrame('Whisper', 'BN_WHISPER', 'WHISPER', 'IGNORED')
 			CreateChatFrame('Loot', 'LOOT', 'COMBAT_FACTION_CHANGE', 'CURRENCY', 'MONEY')
 
 			local frame = CreateChatFrame('Channels')
@@ -196,7 +196,6 @@ Handler:SetScript('OnEvent', function(self, event, ...)
 		ChatTypeInfo.CHANNEL.sticky = 0
 		ChatTypeInfo.WHISPER.sticky = 0
 		ChatTypeInfo.BN_WHISPER.sticky = 0
-		ChatTypeInfo.BN_CONVERSATION.sticky = 0
 		ChatTypeInfo.GUILD.flashTabOnGeneral = true
 		ChatTypeInfo.OFFICER.flashTabOnGeneral = true
 

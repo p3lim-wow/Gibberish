@@ -27,16 +27,12 @@ do
 end
 
 local function AbbreviateChannel(channel, name)
-	if(channel == 'BN_CONVERSATION') then
-		return format('|Hchannel:%s|h%s|h', channel, name)
-	else
-		local flag = ''
-		if(match(name, LEADER)) then
-			flag = '|cffffff00!|r'
-		end
-
-		return format('|Hchannel:%s|h%s|h %s', channel, shorthands[channel] or gsub(channel, 'channel:', ''), flag)
+	local flag = ''
+	if(match(name, LEADER)) then
+		flag = '|cffffff00!|r'
 	end
+
+	return format('|Hchannel:%s|h%s|h %s', channel, shorthands[channel] or gsub(channel, 'channel:', ''), flag)
 end
 
 local function FormatPlayer(info, name)
@@ -53,7 +49,7 @@ local clientColors = {
 local function FormatBNPlayer(info, name)
 	local friendIndex = BNGetFriendIndex(match(info, '(%d+):'))
 	if(friendIndex and friendIndex ~= 0) then
-		local _, toon, client, _, _, _, _, localizedClass = BNGetFriendToonInfo(friendIndex, 1)
+		local _, toon, client, _, _, _, _, localizedClass = BNGetFriendGameAccountInfo(friendIndex, 1)
 		if(client == BNET_CLIENT_WOW) then
 			local colors = RAID_CLASS_COLORS[classes[localizedClass]]
 			return format('|HBNplayer:%s|h|c%s%s|r|h', info, colors.colorStr, toon)
