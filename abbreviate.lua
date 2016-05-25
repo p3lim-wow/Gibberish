@@ -11,19 +11,12 @@ local shorthands = {
 }
 
 local classes = {}
-do
-	local male = {}
-	local female = {}
-	FillLocalizedClassList(male)
-	FillLocalizedClassList(female, true)
+for token, localized in next, LOCALIZED_CLASS_NAMES_MALE do
+	classes[localized] = token
+end
 
-	for token, localized in next, male do
-		classes[localized] = token
-	end
-
-	for token, localized in next, female do
-		classes[localized] = token
-	end
+for token, localized in next, LOCALIZED_CLASS_NAMES_FEMALE do
+	classes[localized] = token
 end
 
 local function AbbreviateChannel(channel, name)
