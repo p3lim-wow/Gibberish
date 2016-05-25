@@ -42,9 +42,9 @@ local clientColors = {
 
 local function FormatBNPlayer(info)
 	local presenceID = match(info, '(%d+):')
-	local _, _, battleTag, _, toon, toonID, client = BNGetFriendInfoByID(presenceID)
+	local _, _, battleTag, _, toon, _, client = BNGetFriendInfoByID(presenceID)
 	if(client == BNET_CLIENT_WOW) then
-		local _, _, _, _, _, _, _, localizedClass = BNGetFriendGameAccountInfo(BNGetFriendIndex(presenceID), toonID)
+		local _, _, _, _, _, _, _, localizedClass = BNGetFriendGameAccountInfo(BNGetFriendIndex(presenceID), 1)
 		local colors = RAID_CLASS_COLORS[classes[localizedClass]]
 		return format('|HBNplayer:%s|h|c%s%s|r|h', info, colors.colorStr, toon)
 	else
